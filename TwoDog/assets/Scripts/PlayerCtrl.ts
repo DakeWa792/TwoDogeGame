@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, RigidBody2D } from 'cc';
+import { _decorator, Component, Node, RigidBody2D, input, Input, EventTouch, Vec2 } from 'cc';
 const { ccclass, property } = _decorator;
 
 /**
@@ -33,10 +33,14 @@ export class PlayerCtrl extends Component {
       this.hammerRig2D = this.hammer.getChildByName("Ham").getComponent(RigidBody2D);
     }
 
-    lateUpdate(dt){
-      
+    onEnable(){
+      //input.on(Input.EventType.MOUSE_MOVE,this.moveHammer,this);
     }
     
+    moveHammer(e:EventTouch){
+      //let mosuePosition = event.getUILocation();
+      //this.hammerRig2D.linearVelocity = Vec2.subtract(mosuePosition,new Vec2(this.human.position.x,this.human.position.y));
+    }
 }
 
 /**
