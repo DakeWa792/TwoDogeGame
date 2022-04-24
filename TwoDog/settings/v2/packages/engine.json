@@ -62,13 +62,13 @@
         "_value": true
       },
       "particle-2d": {
-        "_value": true
+        "_value": false
       },
       "audio": {
         "_value": true
       },
       "video": {
-        "_value": true
+        "_value": false
       },
       "webview": {
         "_value": true
@@ -80,12 +80,15 @@
         "_value": false
       },
       "tiled-map": {
-        "_value": true
+        "_value": false
       },
       "spine": {
         "_value": true
       },
       "dragon-bones": {
+        "_value": false
+      },
+      "marionette": {
         "_value": true
       }
     },
@@ -93,24 +96,21 @@
       "2d",
       "audio",
       "base",
-      "dragon-bones",
       "gfx-webgl",
       "gfx-webgl2",
       "intersection-2d",
       "marionette",
-      "particle-2d",
       "physics-2d-box2d",
       "profiler",
       "spine",
-      "tiled-map",
       "tween",
       "ui",
-      "video",
       "webview"
     ],
     "noDeprecatedFeatures": {
       "value": false,
       "version": ""
-    }
+    },
+    "flags": {}
   }
 }
