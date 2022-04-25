@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, RigidBody2D, input, Input, EventTouch, Vec2 } from 'cc';
+import { _decorator, Component, Node, RigidBody2D, input, Input, EventTouch, Vec2, EventMouse } from 'cc';
 const { ccclass, property } = _decorator;
 
 /**
@@ -25,6 +25,8 @@ export class PlayerCtrl extends Component {
     humanRig2D:RigidBody2D = null;
     hammerRig2D:RigidBody2D = null;
 
+    hammerVelocity:Vec2 = new Vec2(0,0);
+
     start () {
       this.human = this.node.children[0];
       this.hammer = this.node.children[1];
@@ -34,12 +36,21 @@ export class PlayerCtrl extends Component {
     }
 
     onEnable(){
-      //input.on(Input.EventType.MOUSE_MOVE,this.moveHammer,this);
+      input.on(Input.EventType.MOUSE_MOVE,this.moveHammer,this);
     }
     
-    moveHammer(e:EventTouch){
-      //let mosuePosition = event.getUILocation();
-      //this.hammerRig2D.linearVelocity = Vec2.subtract(mosuePosition,new Vec2(this.human.position.x,this.human.position.y));
+    moveHammer(event:EventMouse){
+      let mosuePosition = event.getUILocation();
+      let humanPos = new Vec2(this.human.worldPosition.x,this.human.worldPosition.y)
+
+      Vec2.subtract(this.hammerVelocity,mosuePosition,humanPos);
+      
+    }
+
+    update(dt){
+      console.log(this.hammerVelocity);
+      console.log(this.hammerVelocity.multiply2f(dt,dt));
+      this.hammerRig2D.linearVelocity = this.hammerVelocity.multiply2f(dt,dt);
     }
 }
 
