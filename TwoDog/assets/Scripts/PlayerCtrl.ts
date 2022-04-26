@@ -26,31 +26,33 @@ export class PlayerCtrl extends Component {
     hammerRig2D:RigidBody2D = null;
 
     hammerVelocity:Vec2 = new Vec2(0,0);
+    mosuePosition:Vec2 = new Vec2(0,0);
 
-    start () {
+    onLoad() {
       this.human = this.node.children[0];
       this.hammer = this.node.children[1];
 
       this.humanRig2D = this.human.getComponent(RigidBody2D);
-      this.hammerRig2D = this.hammer.getChildByName("Ham").getComponent(RigidBody2D);
+      this.hammerRig2D = this.hammer.getComponent(RigidBody2D);
     }
 
     onEnable(){
-      input.on(Input.EventType.MOUSE_MOVE,this.moveHammer,this);
+      input.on(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
     }
     
-    moveHammer(event:EventMouse){
-      let mosuePosition = event.getUILocation();
-      let humanPos = new Vec2(this.human.worldPosition.x,this.human.worldPosition.y)
+    moveMouse(event:EventMouse){
+      this.mosuePosition = event.getUILocation();
 
-      Vec2.subtract(this.hammerVelocity,mosuePosition,humanPos);
+      //Vec2.subtract(this.hammerVelocity,mosuePosition,hammerPos);
       
     }
 
     update(dt){
+      console.log(this.mosuePosition);
+      let hammerPos = new Vec2(this.hammer.worldPosition.x,this.hammer.worldPosition.y)
+      Vec2.subtract(this.hammerVelocity,this.mosuePosition,hammerPos);
       console.log(this.hammerVelocity);
-      console.log(this.hammerVelocity.multiply2f(dt,dt));
-      this.hammerRig2D.linearVelocity = this.hammerVelocity.multiply2f(dt,dt);
+      this.hammerRig2D.linearVelocity = this.hammerVelocity.multiply2f(dt*10,dt*10);
     }
 }
 

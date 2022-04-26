@@ -1,0 +1,34 @@
+
+skeleton.png
+size: 244,304
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+DownBody
+  rotate: true
+  xy: 2, 99
+  size: 203, 124
+  orig: 203, 124
+  offset: 0, 0
+  index: -1
+LeftArmy
+  rotate: true
+  xy: 128, 164
+  size: 138, 94
+  orig: 138, 94
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 2, 2
+  size: 95, 148
+  orig: 95, 148
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 152, 68
+  size: 94, 90
+  orig: 94, 90
+  offset: 0, 0
+  index: -1
