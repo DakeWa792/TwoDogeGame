@@ -8,6 +8,10 @@
       {
         "index": 2,
         "name": "hammer"
+      },
+      {
+        "index": 3,
+        "name": "mouse"
       }
     ],
     "collisionMatrix": {

@@ -29,7 +29,7 @@ export class Login extends Component {
     start () {
       console.log("Start Login")
       
-      this.labTxt = this.node.getChildByName("Label").getComponent(Label);
+      //this.labTxt = this.node.getChildByName("Label").getComponent(Label);
       
       var serverkey = "defaultkey";
       var host = "127.0.0.1";
