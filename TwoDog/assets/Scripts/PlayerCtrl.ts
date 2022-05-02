@@ -4,6 +4,7 @@ import { Constants } from './FrameWork/Constants';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
 const { ccclass, property } = _decorator;
 
+
 /**
  * Predefined variables
  * Name = PlayerCtrl
@@ -52,13 +53,20 @@ export class PlayerCtrl extends Component {
     rightUpArmBone:sp.spine.Bone = null;
     rightArmBone:sp.spine.Bone = null;
 
+    headBone:sp.spine.Bone = null;
+
     left_MaxLen:number = null;
     right_MaxLen:number = null;
 
     //是否处于碰撞中
     isCollider:Boolean = false;
 
+    ScreenWidth:number = null;
+    ScreenHeight:number = null;
     onLoad() {
+      this.ScreenWidth = this.node.parent.getComponent(UITransform).contentSize.width/2;
+      this.ScreenHeight = this.node.parent.getComponent(UITransform).contentSize.height/2;
+      
       this.endPos = this.node.children[3];
       
       this.canmeraNode = this.node.parent.getChildByName("Camera");
@@ -69,6 +77,7 @@ export class PlayerCtrl extends Component {
       this.hammer_anchor = this.hammer.getChildByName("Ham");     //锤子头部节点
       this.ham_root_L = this.hammer.getChildByName("RootLeft");   //左手握的锤子的位置
       this.ham_root_R = this.hammer.getChildByName("RootRight");  //右手握的锤子的位置
+      
 
       this.hammerCollider = this.hammer.getComponent(BoxCollider2D); //锤子的碰撞体，只有头部存在
      
@@ -92,17 +101,20 @@ export class PlayerCtrl extends Component {
       this.rightUpArmBone = this.playerSk.findBone("L_Up_arm");
       this.rightArmBone = this.playerSk.findBone("L_arm");
 
+      this.headBone = this.playerSk.findBone("Head");
+      console.log(this.headBone);
       //计算玩家spine数据中左臂、右臂的长度，作为限制范围
       this.left_MaxLen = this.leftUpArmBone.data.length + this.leftArmBone.data.length -5;
       this.right_MaxLen = this.rightUpArmBone.data.length + this.rightArmBone.data.length -0;
-      
+      console.log(this.left_MaxLen);
+      console.log(this.right_MaxLen);
     }
 
     onEnable(){
       if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
         input.on(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
-        CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,true);
-        
+        //CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,true);
+        //CustomEventListener.on(Constants.EventName.MOVEJOYSTICK,this.moveJoyStick,this);
       }else{
         CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,true);
         CustomEventListener.on(Constants.EventName.MOVEJOYSTICK,this.moveJoyStick,this);
@@ -113,13 +125,17 @@ export class PlayerCtrl extends Component {
       this.hammerCollider.on(Contact2DType.END_CONTACT,this.OnCollisionExit,this);
     }
     moveJoyStick(stickPos:Vec2){
-
+      let pos = new Vec2();
+      pos.x =this.human.worldPosition.x + stickPos.x*1.5;
+      pos.y =this.human.worldPosition.y + stickPos.y*1.5;
+      this.targetPosition = pos.clone();
     }
 
 
     moveMouse(event:EventMouse){
       let uiPos = event.getUILocation();
-      let pos = new Vec2((uiPos.x - 480 + this.canmeraNode.worldPosition.x),(uiPos.y -320 + this.canmeraNode.worldPosition.y));
+      
+      let pos = new Vec2((uiPos.x -this.ScreenWidth  + this.canmeraNode.worldPosition.x),(uiPos.y -this.ScreenHeight + this.canmeraNode.worldPosition.y));
       this.targetPosition = pos.clone();
     }
 
@@ -218,6 +234,47 @@ export class PlayerCtrl extends Component {
         this.rightTarBone.x = p3.x;
         this.rightTarBone.y = p3.y;
       }
+
+      
+
+      
+      if (this.targetPosition.x <this.human.worldPosition.x){
+        this.headBone.scaleY = 1;
+        /* if(ang <45){
+          ang = 45;
+        }else if (ang >135){
+          ang = 135;
+        } */
+      }else{
+        this.headBone.scaleY = -1;
+        /* if(ang <235){
+          ang = 235;
+        }else if (ang >315){
+          ang = 315;
+        } */
+      }
+      let dirVec2 = new Vec2();
+      Vec2.subtract(dirVec2,this.targetPosition,new Vec2(this.human.worldPosition.x,this.human.worldPosition.y+11));
+      let direction= dirVec2.normalize();
+      let rad = new Vec2(0,1).signAngle(direction);
+      let ang = misc.radiansToDegrees(rad);
+
+      if(ang>0 && ang <15){
+        ang = 15;
+      }else if(ang <0 && ang >-15){
+        ang = -15;
+      }else if(ang <180 && ang>165){
+        ang = 165;
+      }else if(ang >-180 && ang<-165){
+        ang = -165;
+      }
+
+      if (ang <0){
+        ang = ang +180;
+      }
+
+      this.headBone.rotation = ang;
+
     }
 
     //产生碰撞时调用

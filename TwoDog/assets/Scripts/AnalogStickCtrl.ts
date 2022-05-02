@@ -29,7 +29,13 @@ export class AnalogStickCtrl extends Component {
     bgTransform:UITransform = null;
     max_R:number = null;
 
+    ScreenWidth:number = null;
+    ScreenHeight:number = null;
+
     init(){
+      this.ScreenWidth = this.node.parent.getComponent(UITransform).contentSize.width/2;
+      this.ScreenHeight = this.node.parent.getComponent(UITransform).contentSize.height/2;
+      
       this.bgStick = this.node.children[0];
       this.coreStick = this.bgStick.children[0];
 
@@ -55,7 +61,7 @@ export class AnalogStickCtrl extends Component {
     moveStick(event:EventTouch){
       let touchPos = event.getUILocation();
       
-      let ps = new Vec2(touchPos.x -480,touchPos.y-320);
+      let ps = new Vec2(touchPos.x -this.ScreenWidth,touchPos.y-this.ScreenHeight);
       let pos = new Vec2(ps.x - this.bgStick.position.x,ps.y - this.bgStick.position.y);
       
       let len =pos.length();

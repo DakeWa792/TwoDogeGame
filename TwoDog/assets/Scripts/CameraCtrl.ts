@@ -24,10 +24,12 @@ export class CameraCtrl extends Component {
     camera:Camera = null;
 
     bgNode:Node = null;
+    ScreenNode:Node = null;
     start () {
       this.playerTransfor = this.node.parent.getChildByName("Player").getChildByName("Human").getComponent(UITransform);
       this.transform = this.node.parent.getComponent(UITransform);
       this.bgNode = this.node.parent.getChildByName("Bg");
+      this.ScreenNode = this.node.parent.getChildByName("ScreenGui");
     }
 
     update(dt){
@@ -38,6 +40,7 @@ export class CameraCtrl extends Component {
       //console.log(c_pos);
       this.node.setPosition(new Vec3(c_pos.x,c_pos.y,1000));
       this.bgNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
+      this.ScreenNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
 
     }
     // update (deltaTime: number) {

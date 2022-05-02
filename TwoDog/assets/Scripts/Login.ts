@@ -1,36 +1,36 @@
 
-import { _decorator, Component, Node, Label } from 'cc';
+import { _decorator, Component, Node, Label, sys } from 'cc';
+import { Constants } from './FrameWork/Constants';
 const { ccclass, property } = _decorator;
 
-/**
- * Predefined variables
- * Name = Login
- * DateTime = Sat Apr 23 2022 21:54:40 GMT+0800 (中国标准时间)
- * Author = Dakewang792
- * FileBasename = Login.ts
- * FileBasenameNoExtension = Login
- * URL = db://assets/Scripts/Login.ts
- * ManualUrl = https://docs.cocos.com/creator/3.4/manual/zh/
- *
- */
+
+
+
  
 @ccclass('Login')
 export class Login extends Component {
     // [1]
     // dummy = '';
 
+
     client:any = null;
     socket:any = null;
     session:any = null;
+    channel:any = null;
+
+    authtoken:any = null;
 
     labTxt:Label = null;
 
+    start(){
+      this.initClinet();
+      this.initSession();
+      this.initSocket();
+    }
 
-    start () {
+    initClinet(){
       console.log("Start Login")
-      
-      //this.labTxt = this.node.getChildByName("Label").getComponent(Label);
-      
+
       var serverkey = "defaultkey";
       var host = "127.0.0.1";
       var port = 7350;
@@ -39,38 +39,83 @@ export class Login extends Component {
       var useSSL = false;
       var timeout = 7000; // ms
       this.client = new nakamajs.Client(serverkey, host, port, useSSL, timeout);
-      this.client.verbose  = verboseLogging;
-      this.socket = this.client.createSocket(useSSL, verboseLogging);
+
+    }
+    
+    initSession(){
       var self = this;
       
+      let p_:Promise<any> = this.client.authenticateCustom("test_id",true,"");
+
+      p_.then(function (sess) {
+        console.log(" auth success");
+        sys.localStorage.setItem("nkauthtoken",sess.token);        
+      },
+      function (error) {
+
+        console.log(" auth error "+JSON.stringify( error));
+      }).catch((err) => {
+        console.log(" auth exception: // "+err);
+      });
       
-
-
-      /* let p_:Promise<any> = this.client.authenticateCustom("test_id");
-        p_.then(function (sessio) {
-          self.labTxt.string = "auth success";
-            console.log(" auth success");
-        },
-        function (error) {
-          self.labTxt.string = "auth error "+error;
-          console.log(" auth error "+JSON.stringify( error));
-        }).catch((err) => {
-          console.log(" auth exception: // "+err);
-        }); */
+      this.authtoken = sys.localStorage.getItem("nkauthtoken");
+      this.session = nakamajs.Session.restore(this.authtoken);
+      console.log(this.session);
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    initSocket () {
+        const secure = false; // enable if server is run with an SSL certificate
+        const trace = false;
+        const createStatus = false;    // set `true` to send presence events to subscribed users.
+        this.socket = this.client.createSocket(secure, trace);
+        this.socket.ondisconnect = (evt) => {
+          console.log("Disconnected from the server. Event:", JSON.stringify(evt));
+        };
+        
+        let p_socket:Promise<any> = this.socket.connect(this.session, createStatus);
+
+        p_socket.then(
+                function() {
+                  console.log("Socket Connected");
+                },
+                function(error) {
+                  console.error("connect failed:", JSON.stringify(error));
+                }
+        );
+
+    }
+
+    checkSession(){
+      if (this.session.isexpired(Date.now() / 1000)){
+        this.session = nakamajs.Session.restore(this.authtoken);
+      }
+    }
+
+    checkNetWork(){
+      let connect = true;
+      if (!this.client || !this.session || !this.socket){
+        connect = false;
+      }
+      return connect;
+    }
+
+    checkChat(){
+      if (!this.channel){
+        this.checkSession();
+        
+        const persistence = true;
+        const hidden = false;
+        // 1 = Room, 2 = Direct Message, 3 = Group
+        let p_channel:Promise<any> = this.socket.joinChat(Constants.GrounpId,3,false,false);
+
+        p_channel.then(()=>{
+          return true;
+        },()=>{
+          return false;
+        })
+      }
+    }
+
 }
 
-/**
- * [1] Class member could be defined like this.
- * [2] Use `property` decorator if your want the member to be serializable.
- * [3] Your initialization goes here.
- * [4] Your update function goes here.
- *
- * Learn more about scripting: https://docs.cocos.com/creator/3.4/manual/zh/scripting/
- * Learn more about CCClass: https://docs.cocos.com/creator/3.4/manual/zh/scripting/decorator.html
- * Learn more about life-cycle callbacks: https://docs.cocos.com/creator/3.4/manual/zh/scripting/life-cycle-callbacks.html
- */
+

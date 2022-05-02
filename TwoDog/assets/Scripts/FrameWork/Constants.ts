@@ -4,18 +4,9 @@ const { ccclass, property } = _decorator;
 enum EventName {
   JOYSTICK = "joystick",  
   MOVEJOYSTICK = "move_JoyStick",
-  /* GREETING = 'greeting',
-    GOODBYE = 'goodbye',
-    FINISHED_WALK = 'finished-walk',
-    START_BRAKING = 'start-braking',
-    END_BRAKING = 'end-braking',
-    SHOW_COIN = 'show-coin',
-    GAME_START = 'game-start',
-    GAME_OVER = 'game-over',
-    NEW_LEVEL = 'new-level',
-    SHOW_TALK = 'show-talk',
-    SHOW_GUIDE = 'show-guide',
-    UPDATE_PROGRESS = 'update-progress', */
+  SHOWCHOOSETIP = 'showChooseTips',
+  CONFIRMTIP = 'confirmTip',
+  UNLOCKBULLET = 'unlockBullet',
 }
 
 /* enum CustomerState {
@@ -64,4 +55,6 @@ export class Constants {
     public static GameConfigID = 'TAXI_GAME_CACHE';
     public static PlayerConfigID = 'playerInfo';
     public static MaxLevel = 20;
+
+    public static GrounpId = 'Test1';
 }
