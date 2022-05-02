@@ -2,7 +2,7 @@
   "ver": "1.0.22",
   "importer": "image",
   "imported": true,
-  "uuid": "9a1690c2-615d-40f5-a2ef-074c3a52cf08",
+  "uuid": "e2997625-cde1-41c9-a29e-3194ef4e2f88",
   "files": [
     ".png",
     ".json"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "9a1690c2-615d-40f5-a2ef-074c3a52cf08@6c48a",
-      "displayName": "Dog_3",
+      "uuid": "e2997625-cde1-41c9-a29e-3194ef4e2f88@6c48a",
+      "displayName": "Img_table",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "9a1690c2-615d-40f5-a2ef-074c3a52cf08",
+        "imageUuidOrDatabaseUri": "e2997625-cde1-41c9-a29e-3194ef4e2f88",
         "minfilter": "linear",
         "magfilter": "linear",
         "mipfilter": "none",
@@ -33,29 +33,29 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "9a1690c2-615d-40f5-a2ef-074c3a52cf08@f9941",
-      "displayName": "Dog_3",
+      "uuid": "e2997625-cde1-41c9-a29e-3194ef4e2f88@f9941",
+      "displayName": "Img_table",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
         "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
-        "offsetX": 0,
+        "offsetX": 0.5,
         "offsetY": 0,
-        "trimX": 0,
-        "trimY": 0,
-        "width": 33,
-        "height": 45,
-        "rawWidth": 33,
-        "rawHeight": 45,
+        "trimX": 1,
+        "trimY": 1,
+        "width": 199,
+        "height": 103,
+        "rawWidth": 200,
+        "rawHeight": 105,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
         "borderRight": 0,
         "packable": true,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "9a1690c2-615d-40f5-a2ef-074c3a52cf08@6c48a",
+        "imageUuidOrDatabaseUri": "e2997625-cde1-41c9-a29e-3194ef4e2f88@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.9",
@@ -69,6 +69,6 @@
   "userData": {
     "type": "sprite-frame",
     "hasAlpha": true,
-    "redirect": "9a1690c2-615d-40f5-a2ef-074c3a52cf08@f9941"
+    "redirect": "e2997625-cde1-41c9-a29e-3194ef4e2f88@f9941"
   }
 }

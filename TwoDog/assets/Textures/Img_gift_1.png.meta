@@ -2,7 +2,7 @@
   "ver": "1.0.22",
   "importer": "image",
   "imported": true,
-  "uuid": "d6c683db-92d5-45da-8b6a-628b0107675e",
+  "uuid": "c0a99156-7667-419b-afa3-43eee047398e",
   "files": [
     ".png",
     ".json"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "d6c683db-92d5-45da-8b6a-628b0107675e@6c48a",
+      "uuid": "c0a99156-7667-419b-afa3-43eee047398e@6c48a",
       "displayName": "Img_gift_1",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "d6c683db-92d5-45da-8b6a-628b0107675e",
+        "imageUuidOrDatabaseUri": "c0a99156-7667-419b-afa3-43eee047398e",
         "minfilter": "linear",
         "magfilter": "linear",
         "mipfilter": "none",
@@ -33,7 +33,7 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "d6c683db-92d5-45da-8b6a-628b0107675e@f9941",
+      "uuid": "c0a99156-7667-419b-afa3-43eee047398e@f9941",
       "displayName": "Img_gift_1",
       "id": "f9941",
       "name": "spriteFrame",
@@ -43,19 +43,19 @@
         "rotated": false,
         "offsetX": 0,
         "offsetY": 0,
-        "trimX": 0,
+        "trimX": 1,
         "trimY": 0,
-        "width": 70,
-        "height": 67,
-        "rawWidth": 70,
-        "rawHeight": 67,
+        "width": 198,
+        "height": 90,
+        "rawWidth": 200,
+        "rawHeight": 90,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
         "borderRight": 0,
         "packable": true,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "d6c683db-92d5-45da-8b6a-628b0107675e@6c48a",
+        "imageUuidOrDatabaseUri": "c0a99156-7667-419b-afa3-43eee047398e@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.9",
@@ -69,6 +69,6 @@
   "userData": {
     "type": "sprite-frame",
     "hasAlpha": true,
-    "redirect": "d6c683db-92d5-45da-8b6a-628b0107675e@f9941"
+    "redirect": "c0a99156-7667-419b-afa3-43eee047398e@f9941"
   }
 }

@@ -2,7 +2,7 @@
   "ver": "1.0.22",
   "importer": "image",
   "imported": true,
-  "uuid": "b795f44c-f301-4691-99ff-321658bc2f3c",
+  "uuid": "59030b54-f317-435b-a507-62ee5a252685",
   "files": [
     ".png",
     ".json"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "b795f44c-f301-4691-99ff-321658bc2f3c@6c48a",
-      "displayName": "Img_gift_2",
+      "uuid": "59030b54-f317-435b-a507-62ee5a252685@6c48a",
+      "displayName": "Img_rope_1",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "b795f44c-f301-4691-99ff-321658bc2f3c",
+        "imageUuidOrDatabaseUri": "59030b54-f317-435b-a507-62ee5a252685",
         "minfilter": "linear",
         "magfilter": "linear",
         "mipfilter": "none",
@@ -33,8 +33,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "b795f44c-f301-4691-99ff-321658bc2f3c@f9941",
-      "displayName": "Img_gift_2",
+      "uuid": "59030b54-f317-435b-a507-62ee5a252685@f9941",
+      "displayName": "Img_rope_1",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -45,17 +45,17 @@
         "offsetY": 0,
         "trimX": 0,
         "trimY": 0,
-        "width": 70,
-        "height": 67,
-        "rawWidth": 70,
-        "rawHeight": 67,
+        "width": 9,
+        "height": 9,
+        "rawWidth": 9,
+        "rawHeight": 9,
         "borderTop": 0,
         "borderBottom": 0,
         "borderLeft": 0,
         "borderRight": 0,
         "packable": true,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "b795f44c-f301-4691-99ff-321658bc2f3c@6c48a",
+        "imageUuidOrDatabaseUri": "59030b54-f317-435b-a507-62ee5a252685@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.9",
@@ -69,6 +69,6 @@
   "userData": {
     "type": "sprite-frame",
     "hasAlpha": true,
-    "redirect": "b795f44c-f301-4691-99ff-321658bc2f3c@f9941"
+    "redirect": "59030b54-f317-435b-a507-62ee5a252685@f9941"
   }
 }
