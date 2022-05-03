@@ -21,6 +21,7 @@ const { ccclass, property } = _decorator;
 export class BulletCtrl extends Component {
     // [1]
     // dummy = '';
+    human:Node = null;
 
     isShowBullet:boolean = null;
 
@@ -34,9 +35,12 @@ export class BulletCtrl extends Component {
 
     login:Login = null;
 
+    waitChatRepose:boolean = false;
+
     onLoad(){
       this.login = find("Login").getComponent(Login);
-      
+      this.human = find("Canvas/Player/Human");
+
       this.editBox = this.node.getChildByName("EditBox").getComponent(EditBox);
       this.sendBtn = this.node.getChildByName("SendBtn").getComponent(Button);
       this.initEditBox();
@@ -49,11 +53,18 @@ export class BulletCtrl extends Component {
       this.switchBtn.node.on(Button.EventType.CLICK,this.showBullet,this);
       this.sendBtn.node.on(Button.EventType.CLICK,this.sendMessage,this);
       CustomEventListener.on(Constants.EventName.UNLOCKBULLET,this.unlockBullet,this);
+      CustomEventListener.on(Constants.EventName.CHATSUCCESS,this.chatSucess,this);
+      CustomEventListener.on(Constants.EventName.CHATFAIL,this.chatFail,this);
+      CustomEventListener.on(Constants.EventName.UPDATEBULLET,this.updateBullet,this);
     }
 
     onDisable(){
       this.switchBtn.node.off(Button.EventType.CLICK,this.showBullet,this);
       this.sendBtn.node.off(Button.EventType.CLICK,this.sendMessage,this);
+      CustomEventListener.off(Constants.EventName.UNLOCKBULLET,this.unlockBullet,this);
+      CustomEventListener.off(Constants.EventName.CHATSUCCESS,this.chatSucess,this);
+      CustomEventListener.off(Constants.EventName.CHATFAIL,this.chatFail,this);
+      CustomEventListener.off(Constants.EventName.UPDATEBULLET,this.updateBullet,this);
     }
 
     showBullet(){
@@ -78,47 +89,52 @@ export class BulletCtrl extends Component {
 
     initEditBox(){
       if (!this.canEdit){
-        this.editBox.node.children[1].getComponent(Label).string = "视频解锁";
+        this.editBox.string = "";
+        this.editBox.placeholder = "视频解锁";
       }else{
-        this.editBox.node.children[1].getComponent(Label).string = "说点什么...";
+        this.editBox.placeholder = "说点什么...";
       }
     }
 
     sendMessage(){
-      if (!this.canEdit){
+      let textLb = this.editBox.node.children[0].getComponent(Label);
+      if (this.waitChatRepose){
+        CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"请慢一点,等待输入成功");
+      }else if(!this.canEdit){
         CustomEventListener.dispatchEvent(Constants.EventName.SHOWCHOOSETIP,"是否看视频解锁发送弹幕功能",Constants.EventName.UNLOCKBULLET);
-      }else{
-        let textLb = this.editBox.node.children[0].getComponent(Label);
-        if (textLb.string == ""){
-          CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"输入内容为空，请重新输入");
-        } else{
-          if (!this.login.checkNetWork()){
-            console.error("当前没有网络连接！");
-            CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"当前没有网络连接！");
-            return;
-          }
-
-          if (this.login.checkChat){
-            let P_sendChat:Promise<any> = this.login.socket.writeChatMessage(Constants.GrounpId,"测试聊天是否成功");
-            
-            P_sendChat.then(function(){
-              textLb.string == "";
-              console.log("发送聊天信息成功！！！！！");
-            },function(error){
-              console.log(" P_sendChat rject "+JSON.stringify( error));
-            }).catch((err) => {
-             console.log(" P_sendChat erro: // "+err);
-           });
-            
-          }
-          //let p_chat:Promise<boolean> = this.login.chat(textLb.string);
-          
-
-
-        }
       }
+      else if(textLb.string == ""){
+        CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"输入内容为空，请重新输入");
+      }else if(!this.human){
+        CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"找不到人物位置");
+      }
+     else{
+        let data ={
+          posX:this.human.worldPosition.x.toFixed(2),
+          posY:this.human.worldPosition.y.toFixed(2),
+          name:"用户平台名称",
+          mess:textLb.string
+        }
+        let jsonString = JSON.stringify(data); 
+        this.waitChatRepose = true;
+        this.login.chat(jsonString);
+        }
     }
 
+    chatFail(){
+      this.waitChatRepose = false;
+      CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"当前没有网络连接！");
+    }
+
+    chatSucess(){
+      this.waitChatRepose = false;
+      this.canEdit =false;
+      this.initEditBox();
+    }
+
+    updateBullet(){
+
+    }
 
     spawnBullet(){
 

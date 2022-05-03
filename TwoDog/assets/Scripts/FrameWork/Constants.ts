@@ -7,6 +7,9 @@ enum EventName {
   SHOWCHOOSETIP = 'showChooseTips',
   CONFIRMTIP = 'confirmTip',
   UNLOCKBULLET = 'unlockBullet',
+  CHATSUCCESS = 'chatSuccess',
+  CHATFAIL = 'chatFail',
+  UPDATEBULLET = 'updateBullet',
 }
 
 /* enum CustomerState {
@@ -56,5 +59,7 @@ export class Constants {
     public static PlayerConfigID = 'playerInfo';
     public static MaxLevel = 20;
 
-    public static GrounpId = 'Test1';
+    public static BulletConfig = "bulletStorge";
+    public static BulletCursor = 'bulletCursor';
+    public static GrounpId = 'TestWorld';
 }
