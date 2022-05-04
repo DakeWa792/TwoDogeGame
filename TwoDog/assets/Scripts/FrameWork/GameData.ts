@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec2 } from "cc";
+import { _decorator, Component, Node, Vec2, Vec3 } from "cc";
 import { Configuration } from "./Configuration";
 import { Constants } from "./Constants";
 const { ccclass, property } = _decorator;
@@ -57,6 +57,13 @@ export class PlayerData {
         }
     }
 
+    public saveGameTime(t:number){
+      this.playerInfo.time = t;
+    }
+
+    public savePlayePos(pos:Vec3){
+      this.playerInfo.position = new Vec2(pos.x,pos.y);
+    }
     /* public passLevel(rewardMoney: number){
         this.playerInfo.level ++;
         this.playerInfo.money += rewardMoney;
