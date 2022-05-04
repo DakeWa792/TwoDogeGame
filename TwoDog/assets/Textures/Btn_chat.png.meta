@@ -1,0 +1,74 @@
+{
+  "ver": "1.0.22",
+  "importer": "image",
+  "imported": true,
+  "uuid": "f86bd844-ebea-41a5-bec2-6c0da1168b92",
+  "files": [
+    ".png",
+    ".json"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "f86bd844-ebea-41a5-bec2-6c0da1168b92@6c48a",
+      "displayName": "Btn_chat",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "f86bd844-ebea-41a5-bec2-6c0da1168b92",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "f86bd844-ebea-41a5-bec2-6c0da1168b92@f9941",
+      "displayName": "Btn_chat",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": 0,
+        "offsetY": 0.5,
+        "trimX": 2,
+        "trimY": 1,
+        "width": 36,
+        "height": 37,
+        "rawWidth": 40,
+        "rawHeight": 40,
+        "borderTop": 14,
+        "borderBottom": 12,
+        "borderLeft": 13,
+        "borderRight": 12,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "f86bd844-ebea-41a5-bec2-6c0da1168b92@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "hasAlpha": true,
+    "redirect": "f86bd844-ebea-41a5-bec2-6c0da1168b92@f9941"
+  }
+}

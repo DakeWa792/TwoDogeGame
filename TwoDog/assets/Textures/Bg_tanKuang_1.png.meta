@@ -1,0 +1,74 @@
+{
+  "ver": "1.0.22",
+  "importer": "image",
+  "imported": true,
+  "uuid": "e70668c1-aa6e-4b1b-b83c-a9e98b226b67",
+  "files": [
+    ".png",
+    ".json"
+  ],
+  "subMetas": {
+    "6c48a": {
+      "importer": "texture",
+      "uuid": "e70668c1-aa6e-4b1b-b83c-a9e98b226b67@6c48a",
+      "displayName": "Bg_tanKuang_1",
+      "id": "6c48a",
+      "name": "texture",
+      "userData": {
+        "wrapModeS": "clamp-to-edge",
+        "wrapModeT": "clamp-to-edge",
+        "imageUuidOrDatabaseUri": "e70668c1-aa6e-4b1b-b83c-a9e98b226b67",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 0,
+        "isUuid": true
+      },
+      "ver": "1.0.21",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "f9941": {
+      "importer": "sprite-frame",
+      "uuid": "e70668c1-aa6e-4b1b-b83c-a9e98b226b67@f9941",
+      "displayName": "Bg_tanKuang_1",
+      "id": "f9941",
+      "name": "spriteFrame",
+      "userData": {
+        "trimType": "auto",
+        "trimThreshold": 1,
+        "rotated": false,
+        "offsetX": -0.5,
+        "offsetY": 0.5,
+        "trimX": 5,
+        "trimY": 5,
+        "width": 29,
+        "height": 29,
+        "rawWidth": 40,
+        "rawHeight": 40,
+        "borderTop": 13,
+        "borderBottom": 13,
+        "borderLeft": 13,
+        "borderRight": 13,
+        "packable": true,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "e70668c1-aa6e-4b1b-b83c-a9e98b226b67@6c48a",
+        "atlasUuid": ""
+      },
+      "ver": "1.0.9",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "type": "sprite-frame",
+    "hasAlpha": true,
+    "redirect": "e70668c1-aa6e-4b1b-b83c-a9e98b226b67@f9941"
+  }
+}
