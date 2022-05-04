@@ -67,7 +67,7 @@ export class Login extends Component {
       p_getList.then(function(respone){
         console.log(" getListBullet success");
         console.log(respone);
-        self.socket.disconnect();
+        self.closeSocket();
 
         if (respone.cacheable_cursor){
           self.listCursor = respone.cacheable_cursor;
@@ -89,7 +89,7 @@ export class Login extends Component {
         }
         
       },function(error){
-        self.socket.disconnect();
+        self.closeSocket();
         console.log(" auth error "+JSON.stringify( error));
       });
     }
@@ -179,6 +179,11 @@ export class Login extends Component {
 
     }
 
+    closeSocket(){
+      this.socket.disconnect();
+      this.channelID = null;
+    }
+
     checkSession(){
       if (this.session.isexpired(Date.now() / 1000)){
         this.session = nakamajs.Session.restore(this.authtoken);
@@ -210,7 +215,7 @@ export class Login extends Component {
           
         },(error)=>{
           if (this.chatConnect === 10){
-            self.socket.disconnect();
+            self.closeSocket();
             if (test){
               CustomEventListener.dispatchEvent(Constants.EventName.CHATFAIL);
             }
@@ -267,7 +272,7 @@ export class Login extends Component {
             CustomEventListener.dispatchEvent(Constants.EventName.CHATSUCCESS);
           },
           function(error) {
-            self.socket.disconnect();
+            self.closeSocket();
             CustomEventListener.dispatchEvent(Constants.EventName.CHATFAIL);
             console.error("send message failed:", JSON.stringify(error));
           }

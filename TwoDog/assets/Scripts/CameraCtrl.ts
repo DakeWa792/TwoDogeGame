@@ -1,5 +1,7 @@
 
 import { _decorator, Component, Node, UITransform, Camera, Vec2, Vec3 } from 'cc';
+import { Constants } from './FrameWork/Constants';
+import { CustomEventListener } from './FrameWork/CustomEventListener';
 const { ccclass, property } = _decorator;
 
 /**
@@ -25,15 +27,36 @@ export class CameraCtrl extends Component {
 
     bgNode:Node = null;
     ScreenNode:Node = null;
-    start () {
+
+    isInGame:boolean = false;
+
+    enterGame(pos:Vec2){
       this.playerTransfor = this.node.parent.getChildByName("Player").getChildByName("Human").getComponent(UITransform);
       this.transform = this.node.parent.getComponent(UITransform);
       this.bgNode = this.node.parent.getChildByName("Bg");
       this.ScreenNode = this.node.parent.getChildByName("ScreenGui");
+
+      let c_pos = this.transform.convertToNodeSpaceAR(new Vec3(pos.x,pos.y,0));
+      this.node.setPosition(new Vec3(c_pos.x,c_pos.y,1000));
+      this.bgNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
+      this.ScreenNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
+
+      this.isInGame = true;
+
+    }
+    
+    leaveGame(){
+      this.isInGame = false;
+
+      this.node.setPosition(new Vec3(0,0,1000));
+      this.bgNode.setPosition(new Vec3(0,0,0));
+      this.ScreenNode.setPosition(new Vec3(0,0,0));
     }
 
     update(dt){
-      if (!this.playerTransfor) return;
+      if (!this.playerTransfor || !this.isInGame) {
+        return;
+      }
 
       let w_pos = this.playerTransfor.convertToWorldSpaceAR(new Vec3(0,0,0));
       let c_pos = this.transform.convertToNodeSpaceAR(w_pos);
@@ -43,9 +66,7 @@ export class CameraCtrl extends Component {
       this.ScreenNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
 
     }
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    
 }
 
 /**

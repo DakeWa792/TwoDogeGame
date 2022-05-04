@@ -1,5 +1,6 @@
 
-import { _decorator, Component, Node, Button, Label, EditBox, Scene, find } from 'cc';
+import { _decorator, Component, Node, Button, Label, EditBox, Scene, find, Vec2, Prefab, instantiate, Vec3, Color } from 'cc';
+import { BulletStorge } from './FrameWork/BulletStorge';
 import { Constants } from './FrameWork/Constants';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
 import { Login } from './Login';
@@ -30,8 +31,14 @@ export class BulletCtrl extends Component {
     @property(Button)
     switchBtn:Button = null;
     
+    @property(Prefab)
+    bulletPrefab:Prefab = null;
+
     editBox:EditBox = null;
     sendBtn:Button = null;
+
+    @property(Node)
+    showScreen:Node = null;
 
     login:Login = null;
 
@@ -43,6 +50,9 @@ export class BulletCtrl extends Component {
 
       this.editBox = this.node.getChildByName("EditBox").getComponent(EditBox);
       this.sendBtn = this.node.getChildByName("SendBtn").getComponent(Button);
+      
+
+      this.initBullet();
       this.initEditBox();
     }
 
@@ -74,11 +84,15 @@ export class BulletCtrl extends Component {
         lab.string = "关弹幕";
         this.editBox.node.active = true;
         this.sendBtn.node.active = true;
+
+        this.showScreen.active = true;
       }else{
         this.isShowBullet = false;
         lab.string = "开弹幕";
         this.editBox.node.active = false;
         this.sendBtn.node.active = false;
+
+        this.showScreen.active = false;
       }
     }
     
@@ -121,6 +135,12 @@ export class BulletCtrl extends Component {
         }
     }
 
+    checkCover(){
+
+
+      return false;
+    }
+
     chatFail(){
       this.waitChatRepose = false;
       CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"当前没有网络连接！");
@@ -132,9 +152,41 @@ export class BulletCtrl extends Component {
       this.initEditBox();
     }
 
-    updateBullet(){
+    initBullet(){
+      let jsData = BulletStorge.instance().getBulStorgeData();
+      if (!jsData){
+        return;
+      }
+      this.updateBullet(jsData);
 
     }
+
+    updateBullet(list:any){
+      list.forEach(element =>{
+        if (!element.posX|| !element.posY || !element.name || !element.mess){
+          return true;
+        }
+
+        let pos = new Vec3(element.posX,element.posY,0);
+        let text = element.name +':'+ element.mess;
+
+        let bulletNode = instantiate(this.bulletPrefab);
+        bulletNode.parent = this.showScreen;
+        bulletNode.setWorldPosition(pos);
+        
+        let lab = bulletNode.getComponent(Label);
+        lab.color = this.randomColor();
+        lab.string = text;
+      })
+    }
+
+    randomColor () {
+      // 文本颜色随机
+      let red = Math.round(Math.random()*255);
+      let green = Math.round(Math.random()*255);
+      let blue = Math.round(Math.random()*255);
+      return new Color(red, green, blue);
+  }
 
     spawnBullet(){
 

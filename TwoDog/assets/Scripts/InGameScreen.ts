@@ -17,8 +17,8 @@ const { ccclass, property } = _decorator;
  *
  */
  
-@ccclass('InGameCtrl')
-export class InGameCtrl extends Component {
+@ccclass('InGameScreen')
+export class InGameScreen extends Component {
     
     joyStickCtrl:AnalogStickCtrl = null;
 
@@ -26,7 +26,7 @@ export class InGameCtrl extends Component {
       CustomEventListener.on(Constants.EventName.JOYSTICK,this.joyStickEnable,this);
     }
 
-    start () {
+    onEnable () {
       
     }
 
@@ -38,9 +38,14 @@ export class InGameCtrl extends Component {
 
       if (bool){
         this.joyStickCtrl.node.active = true;
-        this.joyStickCtrl.init();
+      }else{
+        this.joyStickCtrl.node.active = false;
       }
 
+    }
+
+    onDisable(){
+      CustomEventListener.off(Constants.EventName.JOYSTICK,this.joyStickEnable,this);
     }
     
 }

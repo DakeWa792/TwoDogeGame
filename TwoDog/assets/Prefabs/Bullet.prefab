@@ -71,7 +71,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 161.14,
+      "width": 444.49,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -107,7 +107,7 @@
       "b": 0,
       "a": 255
     },
-    "_string": "                             ",
+    "_string": "用户平台名称：最长可写15个字最长可写15个字把",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
     "_actualFontSize": 20,

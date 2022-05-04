@@ -63,7 +63,14 @@ export class PlayerCtrl extends Component {
 
     ScreenWidth:number = null;
     ScreenHeight:number = null;
-    onLoad() {
+
+    //是否开启操作检测
+    isOpenOperate:Boolean = false;
+
+    eneterGame(pos:Vec2) {
+      let p_pos = this.node.parent.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(pos.x,pos.y,0));
+      this.node.setWorldPosition(p_pos.x,p_pos.y,0);
+      
       this.ScreenWidth = this.node.parent.getComponent(UITransform).contentSize.width/2;
       this.ScreenHeight = this.node.parent.getComponent(UITransform).contentSize.height/2;
       
@@ -110,11 +117,13 @@ export class PlayerCtrl extends Component {
       console.log(this.right_MaxLen);
     }
 
-    onEnable(){
+
+
+    openOperate(){
+      //控制鼠标在玩家合适的范围内
+      
       if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
         input.on(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
-        //CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,true);
-        //CustomEventListener.on(Constants.EventName.MOVEJOYSTICK,this.moveJoyStick,this);
       }else{
         CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,true);
         CustomEventListener.on(Constants.EventName.MOVEJOYSTICK,this.moveJoyStick,this);
@@ -123,6 +132,8 @@ export class PlayerCtrl extends Component {
       
       this.hammerCollider.on(Contact2DType.BEGIN_CONTACT,this.OnCollisionEnter,this);
       this.hammerCollider.on(Contact2DType.END_CONTACT,this.OnCollisionExit,this);
+
+      this.isOpenOperate = true;
     }
     moveJoyStick(stickPos:Vec2){
       let pos = new Vec2();
@@ -140,6 +151,10 @@ export class PlayerCtrl extends Component {
     }
 
     update(dt){
+      if (!this.isOpenOperate){
+        return;
+      }
+      
       //计算鼠标目标的受力
       let startPos1 = new Vec2(this.mouseTarget.worldPosition.x,this.mouseTarget.worldPosition.y);
       let targMouseVelocity = new Vec2();
@@ -286,6 +301,17 @@ export class PlayerCtrl extends Component {
     OnCollisionExit(){
       this.isCollider = false;
       this.playerRig2D.gravityScale = 1;
+    }
+
+    onDisable(){
+      if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
+        input.off(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
+      }else{
+        CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,false);
+        CustomEventListener.off(Constants.EventName.MOVEJOYSTICK,this.moveJoyStick,this);
+      }
+      this.hammerCollider.off(Contact2DType.BEGIN_CONTACT,this.OnCollisionEnter,this);
+      this.hammerCollider.off(Contact2DType.END_CONTACT,this.OnCollisionExit,this);
     }
 }
 

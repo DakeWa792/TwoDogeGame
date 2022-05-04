@@ -10,6 +10,9 @@ enum EventName {
   CHATSUCCESS = 'chatSuccess',
   CHATFAIL = 'chatFail',
   UPDATEBULLET = 'updateBullet',
+  ENTERGAME = 'enterGame',
+  LEAVEGAME = 'leaveGame',
+  RESTARTGAME = 'restartGame',
 }
 
 /* enum CustomerState {
@@ -54,6 +57,8 @@ export class Constants {
         gameUI: 'gameUI',
         resultUI: 'resultUI',
     };
+
+  
 
     public static GameConfigID = 'TAXI_GAME_CACHE';
     public static PlayerConfigID = 'playerInfo';

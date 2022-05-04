@@ -1,6 +1,7 @@
 
 import { _decorator, Component, Node, sys } from 'cc';
 import { Constants } from './Constants';
+import { CustomEventListener } from './CustomEventListener';
 const { ccclass, property } = _decorator;
 
 /**
@@ -17,7 +18,7 @@ const { ccclass, property } = _decorator;
  
 @ccclass('BulletStorge')
 export class BulletStorge {
-  private _jsonData = {};
+  private _jsonData = new Array();
   private _markSave = false;
 
   private _cursor:string = null;
@@ -46,7 +47,21 @@ export class BulletStorge {
   }
 
   public addBullet(list:Array<string>){
+    let tpArry = new Array();
 
+    list.forEach(element =>{
+      let jsData = JSON.parse(element);
+      
+      if (jsData.posX && jsData.posY && jsData.name && jsData.mess){
+        this._jsonData.push(jsData);
+        
+        tpArry.push(jsData);
+      }
+    })
+
+    let jsString = JSON.stringify(this._jsonData);
+    CustomEventListener.dispatchEvent(Constants.EventName.UPDATEBULLET,tpArry);
+    sys.localStorage.setItem(Constants.BulletConfig,jsString);
   }
 
   public updateCursor(cursor:string){

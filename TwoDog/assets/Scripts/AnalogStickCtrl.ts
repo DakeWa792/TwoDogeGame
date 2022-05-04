@@ -32,7 +32,7 @@ export class AnalogStickCtrl extends Component {
     ScreenWidth:number = null;
     ScreenHeight:number = null;
 
-    init(){
+    onEnable(){
       this.ScreenWidth = this.node.parent.getComponent(UITransform).contentSize.width/2;
       this.ScreenHeight = this.node.parent.getComponent(UITransform).contentSize.height/2;
       
@@ -76,7 +76,10 @@ export class AnalogStickCtrl extends Component {
       CustomEventListener.dispatchEvent(Constants.EventName.MOVEJOYSTICK,pos);
     }
 
-
+    onDisable(){
+      this.bgStick.off(Node.EventType.TOUCH_START,this.startTouch,this);
+      this.bgStick.off(Node.EventType.TOUCH_MOVE,this.moveTouch,this);
+    }
 
 }
 
