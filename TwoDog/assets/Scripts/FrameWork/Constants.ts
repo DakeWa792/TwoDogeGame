@@ -6,7 +6,7 @@ enum EventName {
   MOVEJOYSTICK = "move_JoyStick",
   SHOWCHOOSETIP = 'showChooseTips',
   CONFIRMTIP = 'confirmTip',
-  UNLOCKBULLET = 'unlockBullet',
+  
   CHATSUCCESS = 'chatSuccess',
   CHATFAIL = 'chatFail',
   UPDATEBULLET = 'updateBullet',
@@ -14,13 +14,14 @@ enum EventName {
   LEAVEGAME = 'leaveGame',
   RESTARTGAME = 'restartGame',
   ENDGAME = 'endGame',
-  SHOWENDGUI = 'showEndGui',
+  SHOWWINGUI = 'showEndGui',
+  SHOWBULLETTIP = 'showBulletTip',
 }
 
-/* enum CustomerState {
-    NONE,
-    GREETING,
-    GOODBYE,
+enum VideoEvent {
+    UPLOADSUCEES = 'upload_sucess',
+    UPLOADFAIL = 'upload_fail',
+    UNLOCKBULLET = 'unlockBullet',
 }
 
 enum AudioSource {
@@ -41,14 +42,13 @@ enum CarGroup {
     NORMAL = 1 << 0,
     MAIN_CAR = 1 << 1,
     OTHER_CAR = 1 << 2,
-} */
+}
 
 @ccclass("Constants")
 export class Constants {
     public static EventName = EventName;
-    /* public static CustomerState = CustomerState;
-    public static AudioSource = AudioSource;
-    public static CarGroup = CarGroup; */
+    public static VideoEvent = VideoEvent;
+
     public static talkTable = [
         'Please hurry up.\n I have a plane to catch',
         'The most beautiful day \nis not the rainy day',

@@ -62,7 +62,7 @@ export class BulletCtrl extends Component {
 
       this.switchBtn.node.on(Button.EventType.CLICK,this.showBullet,this);
       this.sendBtn.node.on(Button.EventType.CLICK,this.sendMessage,this);
-      CustomEventListener.on(Constants.EventName.UNLOCKBULLET,this.unlockBullet,this);
+      CustomEventListener.on(Constants.VideoEvent.UNLOCKBULLET,this.unlockBullet,this);
       CustomEventListener.on(Constants.EventName.CHATSUCCESS,this.chatSucess,this);
       CustomEventListener.on(Constants.EventName.CHATFAIL,this.chatFail,this);
       CustomEventListener.on(Constants.EventName.UPDATEBULLET,this.updateBullet,this);
@@ -71,7 +71,7 @@ export class BulletCtrl extends Component {
     onDisable(){
       this.switchBtn.node.off(Button.EventType.CLICK,this.showBullet,this);
       this.sendBtn.node.off(Button.EventType.CLICK,this.sendMessage,this);
-      CustomEventListener.off(Constants.EventName.UNLOCKBULLET,this.unlockBullet,this);
+      CustomEventListener.off(Constants.VideoEvent.UNLOCKBULLET,this.unlockBullet,this);
       CustomEventListener.off(Constants.EventName.CHATSUCCESS,this.chatSucess,this);
       CustomEventListener.off(Constants.EventName.CHATFAIL,this.chatFail,this);
       CustomEventListener.off(Constants.EventName.UPDATEBULLET,this.updateBullet,this);
@@ -115,7 +115,7 @@ export class BulletCtrl extends Component {
       if (this.waitChatRepose){
         CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"请慢一点,等待输入成功");
       }else if(!this.canEdit){
-        CustomEventListener.dispatchEvent(Constants.EventName.SHOWCHOOSETIP,"是否看视频解锁发送弹幕功能",Constants.EventName.UNLOCKBULLET);
+        CustomEventListener.dispatchEvent(Constants.EventName.SHOWBULLETTIP);
       }
       else if(textLb.string == ""){
         CustomEventListener.dispatchEvent(Constants.EventName.CONFIRMTIP,"输入内容为空，请重新输入");

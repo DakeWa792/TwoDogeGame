@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, Button, Label } from 'cc';
+import { CustomEventListener } from '../FrameWork/CustomEventListener';
 const { ccclass, property } = _decorator;
 
 /**
@@ -19,19 +20,27 @@ export class confirmTipCtrl extends Component {
     // [1]
     agreeBtn:Button = null;
     contextLb:Label = null;
+    agereeEvent:string = null;
 
     onLoad () {
       this.agreeBtn = this.node.children[1].getComponent(Button);
       this.contextLb = this.node.children[2].children[0].getComponent(Label);
     }
 
-    init (text:string) {
+    init (text:string,event:string) {
       this.contextLb.string = text;
 
-      this.agreeBtn.node.on(Button.EventType.CLICK,this.confirm,this);
+      if (event){
+        this.agreeBtn.node.on(Button.EventType.CLICK,this.confirm,this);
+        this.agereeEvent = event;
+      }else{
+        this.agreeBtn.node.on(Button.EventType.CLICK,this.close,this);
+      }
+      
     }
 
     confirm(){
+      CustomEventListener.dispatchEvent(this.agereeEvent);
       this.close();
     }
 
@@ -41,7 +50,7 @@ export class confirmTipCtrl extends Component {
 
     onDisable(){
       this.contextLb.string = "";  
-      this.agreeBtn.node.off(Button.EventType.CLICK,this.confirm,this);
+      this.agreeBtn.node.off(Button.EventType.CLICK);
     }
 }
 

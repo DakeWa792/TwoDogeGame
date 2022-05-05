@@ -92,6 +92,10 @@ export class Main extends Component {
     }
 
     restartGame(){
+      //重载分数，重载存储数据
+
+      //重载看视频保存点数据
+
 
     }
     //进入开始界面（读取数据）
