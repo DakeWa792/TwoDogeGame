@@ -18,6 +18,8 @@ export class TipsCtrl extends Component {
 
     chooseTips:chooseTipCtrl = null;
     confirmTips:confirmTipCtrl = null;
+    endGui:endGuiCtrl = null;
+
 
     curTips:Node = null;
 
@@ -29,6 +31,7 @@ export class TipsCtrl extends Component {
 
       CustomEventListener.on(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);
       CustomEventListener.on(Constants.EventName.CONFIRMTIP,this.showConfirmTips,this);
+      CustomEventListener.on(Constants.EventName.showEndGui,this.showEndGui,this);
 
     }
 
@@ -53,20 +56,15 @@ export class TipsCtrl extends Component {
       this.confirmTips.init(text);
     }
 
+    showEndGui(){
+
+    }
+
     onDisable(){
       CustomEventListener.off(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);
       CustomEventListener.off(Constants.EventName.CONFIRMTIP,this.showConfirmTips,this);
+      CustomEventListener.off(Constants.EventName.showEndGui,this.showEndGui,this);
     }
 
 }
 
-/**
- * [1] Class member could be defined like this.
- * [2] Use `property` decorator if your want the member to be serializable.
- * [3] Your initialization goes here.
- * [4] Your update function goes here.
- *
- * Learn more about scripting: https://docs.cocos.com/creator/3.4/manual/zh/scripting/
- * Learn more about CCClass: https://docs.cocos.com/creator/3.4/manual/zh/scripting/decorator.html
- * Learn more about life-cycle callbacks: https://docs.cocos.com/creator/3.4/manual/zh/scripting/life-cycle-callbacks.html
- */

@@ -53,6 +53,10 @@ export class CameraCtrl extends Component {
       this.ScreenNode.setPosition(new Vec3(0,0,0));
     }
 
+    closeUpdate(){
+      this.isInGame = false;
+    }
+
     update(dt){
       if (!this.playerTransfor || !this.isInGame) {
         return;

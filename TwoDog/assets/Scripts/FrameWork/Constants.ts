@@ -14,6 +14,7 @@ enum EventName {
   LEAVEGAME = 'leaveGame',
   RESTARTGAME = 'restartGame',
   ENDGAME = 'endGame',
+  SHOWENDGUI = 'showEndGui',
 }
 
 /* enum CustomerState {

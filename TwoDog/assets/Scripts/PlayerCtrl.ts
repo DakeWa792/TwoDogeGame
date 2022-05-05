@@ -304,6 +304,10 @@ export class PlayerCtrl extends Component {
     }
 
     onDisable(){
+      this.closeOperate();
+    }
+
+    closeOperate(){
       if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
         input.off(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
       }else{

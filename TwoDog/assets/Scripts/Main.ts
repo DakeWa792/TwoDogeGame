@@ -53,6 +53,7 @@ export class Main extends Component {
     onEnable(){
       CustomEventListener.on(Constants.EventName.ENTERGAME,this.enterGame,this);
       CustomEventListener.on(Constants.EventName.RESTARTGAME,this.restartGame,this);
+      CustomEventListener.on(Constants.EventName.ENDGAME,this.endGame,this);
     }
 
     start(){
@@ -95,7 +96,10 @@ export class Main extends Component {
     }
     //进入开始界面（读取数据）
 
-
+    endGame(){
+      this.playerCtrl.closeOperate();
+      this.cameraCtrl.closeUpdate();
+    }
 
     // 进入游戏(玩家传送到位，镜头传送到位)
 

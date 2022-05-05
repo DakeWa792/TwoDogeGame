@@ -1,5 +1,7 @@
 
 import { _decorator, Component, Node, BoxCollider2D, Contact2DType } from 'cc';
+import { CustomEventListener } from './FrameWork/CustomEventListener';
+import { Constants } from './FrameWork/Constants';
 const { ccclass, property } = _decorator;
 
 /**
@@ -29,7 +31,7 @@ export class EndPointCtrl extends Component {
 
     enterEndPoint(){
       this.scheduleOnce(function(){
-
+        CustomEventListener.dispatchEvent (Constants.EventName.ENDGAME);
       },5);
     }
 
