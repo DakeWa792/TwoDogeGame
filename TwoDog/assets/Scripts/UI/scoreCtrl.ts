@@ -30,6 +30,8 @@ export class scoreCtrl extends Component {
     startTime:number = null;
     height:number =0;
 
+    isInGame:boolean = false;
+
     _runTimeData:RunTimeData = null;
     onEnable () {
       this.player = find("Canvas/Player");
@@ -44,12 +46,17 @@ export class scoreCtrl extends Component {
       if (!this.player){
         return;
       }
+      this.isInGame = true;
       this.updateTime();
       this.heightLb.string = `Height:${Math.floor((this.player.position.y+500)/10)}`;
       this._runTimeData.playerData.savePlayePos(this.player.position);
     }
 
     updateTime(){
+      if(!this.isInGame){
+        return;
+      }
+
       this.startTime++;
       let h = Math.floor(this.startTime/3600);
       let m = Math.floor((this.startTime - h*3600)/60);
@@ -59,6 +66,7 @@ export class scoreCtrl extends Component {
     }
 
     onDisable(){
+      this.isInGame = false;
       this.unschedule(this.saveScore);
     }
 

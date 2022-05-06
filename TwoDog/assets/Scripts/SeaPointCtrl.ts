@@ -16,8 +16,8 @@ const { ccclass, property } = _decorator;
  *
  */
  
-@ccclass('EndPointCtrl')
-export class EndPointCtrl extends Component {
+@ccclass('SeaPointCtrl')
+export class SeaPointCtrl extends Component {
     // [1]
     // dummy = '';
 
@@ -28,20 +28,19 @@ export class EndPointCtrl extends Component {
     }
 
     start () {
-      this.node.getComponent(BoxCollider2D).on(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
+      this.node.getComponent(BoxCollider2D).on(Contact2DType.BEGIN_CONTACT,this.seaPoint,this);
     }
 
-    enterEndPoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
+    seaPoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
       if (otherCollider.GrounpId == "Player" && !this.isTrigger){
-        this.scheduleOnce(function(){
         this.isTrigger = true;
-        CustomEventListener.dispatchEvent (Constants.EventName.ENDGAME);
-      },5);
+        CustomEventListener.dispatchEvent (Constants.EventName.PAUESEGAME);
+        CustomEventListener.dispatchEvent (Constants.EventName.SHOWFAILGUI);
       }
     }
 
     onDisable(){
-      this.node.getComponent(BoxCollider2D).off(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
+      this.node.getComponent(BoxCollider2D).off(Contact2DType.BEGIN_CONTACT,this.seaPoint,this);
     }
 }
 

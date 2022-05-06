@@ -117,7 +117,11 @@ export class PlayerCtrl extends Component {
       console.log(this.right_MaxLen);
     }
 
-
+    restartGame(pos:Vec2){
+      this.closeOperate();
+      let p_pos = this.node.parent.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(pos.x,pos.y,0));
+      this.node.setWorldPosition(p_pos.x,p_pos.y,0);
+    }
 
     openOperate(){
       //控制鼠标在玩家合适的范围内
@@ -135,6 +139,18 @@ export class PlayerCtrl extends Component {
 
       this.isOpenOperate = true;
     }
+
+    closeOperate(){
+      if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
+        input.off(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
+      }else{
+        CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,false);
+        CustomEventListener.off(Constants.EventName.MOVEJOYSTICK,this.moveJoyStick,this);
+      }
+      this.hammerCollider.off(Contact2DType.BEGIN_CONTACT,this.OnCollisionEnter,this);
+      this.hammerCollider.off(Contact2DType.END_CONTACT,this.OnCollisionExit,this);
+    }
+    
     moveJoyStick(stickPos:Vec2){
       let pos = new Vec2();
       pos.x =this.human.worldPosition.x + stickPos.x*1.5;
@@ -307,16 +323,7 @@ export class PlayerCtrl extends Component {
       this.closeOperate();
     }
 
-    closeOperate(){
-      if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
-        input.off(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
-      }else{
-        CustomEventListener.dispatchEvent(Constants.EventName.JOYSTICK,false);
-        CustomEventListener.off(Constants.EventName.MOVEJOYSTICK,this.moveJoyStick,this);
-      }
-      this.hammerCollider.off(Contact2DType.BEGIN_CONTACT,this.OnCollisionEnter,this);
-      this.hammerCollider.off(Contact2DType.END_CONTACT,this.OnCollisionExit,this);
-    }
+
 }
 
 /**

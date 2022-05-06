@@ -16,8 +16,8 @@ const { ccclass, property } = _decorator;
  *
  */
  
-@ccclass('winGuiCtrl')
-export class winGuiCtrl extends Component {
+@ccclass('failGuiCtrl')
+export class failGuiCtrl extends Component {
     // [1]
     // dummy = '';
 
@@ -33,17 +33,17 @@ export class winGuiCtrl extends Component {
 
     onEnable () {
       this.returnMan_Btn.on(Node.EventType.TOUCH_START,this.restartGame,this);
-      this.uploadScore_Btn.on(Node.EventType.TOUCH_START,this.upLoadScore,this);
-      //上传成功
-      CustomEventListener.on(Constants.EventName.UPLOADSUCEES,this.uploadSucess,this);
-      CustomEventListener.on(Constants.VideoEvent.CALLBACKSCORE,this.upLoadScore_callBack,this);
+      this.uploadScore_Btn.on(Node.EventType.TOUCH_START,this.watchVideo,this);
+      //看视频成功
+      CustomEventListener.on(Constants.EventName.CLOSEFAILGUI,this.closeFailGui,this);
+
     }
 
    onDisable(){
     this.returnMan_Btn.off(Node.EventType.TOUCH_START,this.restartGame,this);
-    this.uploadScore_Btn.off(Node.EventType.TOUCH_START,this.upLoadScore,this);
-    CustomEventListener.off(Constants.EventName.UPLOADSUCEES,this.uploadSucess,this);
-    CustomEventListener.off(Constants.VideoEvent.CALLBACKSCORE,this.upLoadScore_callBack,this);
+    this.uploadScore_Btn.off(Node.EventType.TOUCH_START,this.watchVideo,this);
+    CustomEventListener.off(Constants.EventName.CLOSEFAILGUI,this.closeFailGui,this);
+
    }
 
    restartGame(){
@@ -51,32 +51,15 @@ export class winGuiCtrl extends Component {
     this.node.active = false;
    }
 
-   upLoadScore(){
-    if (!this.isCanUplaod){
-
-    }else if(this.isWaitingUpload){
-      CustomEventListener.dispatchEvent (Constants.EventName.TINYTIP,"正在上传。。。");
-    }
-    else{
-      this.isWaitingUpload = true;
-      CustomEventListener.dispatchEvent (Constants.EventName.upLoadScore);
-    }
+   watchVideo(){
+    //观看视频的API
    }
 
    //视频观看结束，获得回调，隐藏摄像头角标
-   upLoadScore_callBack(){
+   closeFailGui(){
      //隐藏摄像头角标
 
-     this.isCanUplaod = true；
-   }
-
-
-   uploadSucess(bool:boolean){
-    this.isWaitingUpload = false;
-    if (bool){
-      this.uploadScore_Btn.active = false; 
-      this.returnMan_Btn.children[1].getComponent(Label).string = "上传成功";
-    }
+    this.node.active = false;
    }
 
 

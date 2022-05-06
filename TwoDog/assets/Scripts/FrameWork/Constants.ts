@@ -6,21 +6,33 @@ enum EventName {
   MOVEJOYSTICK = "move_JoyStick",
   SHOWCHOOSETIP = 'showChooseTips',
   CONFIRMTIP = 'confirmTip',
-  
+  TINYTIP = 'tinyTip',
+
   CHATSUCCESS = 'chatSuccess',
   CHATFAIL = 'chatFail',
   UPDATEBULLET = 'updateBullet',
+
+
   ENTERGAME = 'enterGame',
   LEAVEGAME = 'leaveGame',
   RESTARTGAME = 'restartGame',
   ENDGAME = 'endGame',
+  PAUESEGAME = 'pauseGame',
+
+
+
   SHOWWINGUI = 'showEndGui',
   SHOWBULLETTIP = 'showBulletTip',
+  SHOWFAILGUI = 'showFailGui',
+  CLOSEFAILGUI = 'closeFailGui',
+
+  UPLOADSCORE  = 'upload_score',
+  UPLOADSUCEES = 'upload_sucess',
+  UPLOADFAIL = 'upload_fail',
 }
 
 enum VideoEvent {
-    UPLOADSUCEES = 'upload_sucess',
-    UPLOADFAIL = 'upload_fail',
+    CALLBACKSCORE =  'upLoadScore_callBack',
     UNLOCKBULLET = 'unlockBullet',
 }
 

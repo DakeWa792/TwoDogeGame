@@ -16,31 +16,27 @@ const { ccclass, property } = _decorator;
  *
  */
  
-@ccclass('EndPointCtrl')
-export class EndPointCtrl extends Component {
+@ccclass('SavePointCtrl')
+export class SavePointCtrl extends Component {
     // [1]
     // dummy = '';
 
     isTrigger:boolean = false;
-
-    onEnable(){
-      this.isTrigger = false;
-    }
 
     start () {
       this.node.getComponent(BoxCollider2D).on(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
     }
 
     enterEndPoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
-      if (otherCollider.GrounpId == "Player" && !this.isTrigger){
-        this.scheduleOnce(function(){
+      if (otherCollider.GrounpId == "Player" && !isTrigger){
+        //触发视频
+
         this.isTrigger = true;
-        CustomEventListener.dispatchEvent (Constants.EventName.ENDGAME);
-      },5);
       }
     }
 
     onDisable(){
+      this.isTrigger = false;
       this.node.getComponent(BoxCollider2D).off(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
     }
 }

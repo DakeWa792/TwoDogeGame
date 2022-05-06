@@ -30,6 +30,9 @@ export class RunTimeData {
     get gameTime() {
         return this.playerData.playerInfo.time;
     }
+    get revivePoint(){
+        return this.playerData.playerInfo.revivePoint;
+    }
 }
 
 interface IPlayerInfo {
@@ -39,7 +42,7 @@ interface IPlayerInfo {
 
 @ccclass("PlayerData")
 export class PlayerData {
-    public playerInfo: IPlayerInfo = { position: new Vec2(-110,-115), time: 0 };
+    public playerInfo: IPlayerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:1};
 
     static _instance: PlayerData = null!;
     public static instance() {
@@ -64,13 +67,20 @@ export class PlayerData {
     public savePlayePos(pos:Vec3){
       this.playerInfo.position = new Vec2(pos.x,pos.y);
     }
-    /* public passLevel(rewardMoney: number){
-        this.playerInfo.level ++;
-        this.playerInfo.money += rewardMoney;
-        this.savePlayerInfoToCache();
-    } */
+    
+    public saverevivePoint(num:number){
+        if(num>this.playerInfo.revivePoint){
+          this.playerInfo.revivePoint = num;
+        }   
+    }
 
     public savePlayerInfoToCache(){
+        const data = JSON.stringify(this.playerInfo);
+        Configuration.instance().setConfigData(Constants.PlayerConfigID, data);
+    }
+
+    public recoverPlayerInfo(){
+        this.playerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:1};
         const data = JSON.stringify(this.playerInfo);
         Configuration.instance().setConfigData(Constants.PlayerConfigID, data);
     }

@@ -22,7 +22,7 @@ export class Configuration {
             this._jsonData = JSON.parse(localStorage);
         }
 
-        setInterval(this._scheduleSave.bind(this), 500);
+        //setInterval(this._scheduleSave.bind(this), 500);
     }
 
     public getConfigData(key: string){
@@ -33,6 +33,7 @@ export class Configuration {
     public setConfigData(key: string, value: string){
         this._jsonData[key] = value;
         this._markSave = true;
+        this._scheduleSave;
     }
 
     private _scheduleSave(){

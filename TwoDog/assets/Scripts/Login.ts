@@ -33,7 +33,7 @@ export class Login extends Component {
 
     chatConnect:number = 0;
 
-    start(){
+    onLoad(){
       this.initLitsBullet();
       
       this.initClinet();
@@ -54,6 +54,14 @@ export class Login extends Component {
         this.checkChat();
 
       },1,10)
+    }
+
+    onEnable(){
+      CustomEventListener.on(Constants.EventName.upLoadScore,this.upLoadScore,this);
+    }
+
+    onDisable(){
+      CustomEventListener.off(Constants.EventName.upLoadScore,this.upLoadScore,this);
     }
 
     initLitsBullet(){
@@ -279,7 +287,26 @@ export class Login extends Component {
       );
     }
 
+    upLoadScore(){
 
+      this.initClinet();
+      this.initSession();
+      this.initSocket();
+
+      let score = RunTimeData.instance().gameTime;
+      let P_score:Promise<any> = this.client.writeLeaderboardRecord(this.session,"TwoDog_time",score);
+
+      P_score.then((response)=>{
+        console.log("Successfully uplaod score");
+        CustomEventListener.dispatchEvent (Constants.EventName.UPLOADSUCEES,true);
+      },(error)=>{
+        //弹出提示文字，提示上传失败
+        CustomEventListener.dispatchEvent (Constants.EventName.UPLOADSUCEES,false);
+        CustomEventListener.dispatchEvent (Constants.EventName.TINYTIP,"分数上传排行榜失败，请检查您的网络后重试");
+        console.error("Uplaod score failed!");
+      });
+
+    }
 
 }
 

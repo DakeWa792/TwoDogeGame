@@ -75,7 +75,7 @@ export class Main extends Component {
     }
 
     enterGame(){
-      let startPos = this._runtimeData.curPosition;
+      let tpStartPos = this._runtimeData.curPosition;
 
       this.player.active = true;
       this.sceneNode.active = true;
@@ -85,34 +85,51 @@ export class Main extends Component {
       this.start_Screen.node.active = false;
       this.inGame_Screen.node.active = true;
       
-      this.playerCtrl.eneterGame(startPos);
-      this.cameraCtrl.enterGame(startPos);
+      this.playerCtrl.eneterGame(tpStartPos);
+      this.cameraCtrl.enterGame(tpStartPos);
       
       this.playerCtrl.openOperate();
     }
 
     restartGame(){
-      //重载分数，重载存储数据
+      
+      this.start_Screen.node.active = true;
+      this.inGame_Screen.node.active = false;
 
-      //重载看视频保存点数据
 
+      this.sceneNode.active = false;
+      this.seaNode.active = false;
+      this.showBullNode.active = false;
+
+
+      this.playerCtrl.restartGame(startPos);
+      this.cameraCtrl.leaveGame();
+
+      PlayerData.instance().recoverPlayerInfo();
 
     }
-    //进入开始界面（读取数据）
-
-    endGame(){
+    //游戏失败，暂停游戏
+    pauseGame(){
       this.playerCtrl.closeOperate();
       this.cameraCtrl.closeUpdate();
     }
 
-    // 进入游戏(玩家传送到位，镜头传送到位)
+    //视频观看完成，继续游戏
+    revivalGame(){
+      
 
-
-    //退出游戏，回到开始界面
-    
-    onDisable(){
-
+      
+      CustomEventListener.dispatchEvent (Constants.EventName.CLOSEFAILGUI);
     }
+
+    endGame(){
+      this.playerCtrl.closeOperate();
+      this.cameraCtrl.closeUpdate();
+      CustomEventListener.dispatchEvent (Constants.EventName.showWinGui);
+    }
+
+    
+
 }
 
 /**
