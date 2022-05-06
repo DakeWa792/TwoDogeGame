@@ -117,7 +117,7 @@ export class PlayerCtrl extends Component {
       console.log(this.right_MaxLen);
     }
 
-    restartGame(pos:Vec2){
+    restartGame(pos:Vec2|Vec3){
       this.closeOperate();
       let p_pos = this.node.parent.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(pos.x,pos.y,0));
       this.node.setWorldPosition(p_pos.x,p_pos.y,0);

@@ -43,7 +43,7 @@ interface IPlayerInfo {
 
 @ccclass("PlayerData")
 export class PlayerData {
-    public playerInfo: IPlayerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:1};
+    public playerInfo: IPlayerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:0};
 
     static _instance: PlayerData = null!;
     public static instance() {
@@ -81,7 +81,7 @@ export class PlayerData {
     }
 
     public recoverPlayerInfo(){
-        this.playerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:1};
+        this.playerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:0};
         const data = JSON.stringify(this.playerInfo);
         Configuration.instance().setConfigData(Constants.PlayerConfigID, data);
     }

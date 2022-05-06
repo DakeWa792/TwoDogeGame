@@ -33,11 +33,12 @@ export class TipsCtrl extends Component {
       this.chooseTips = this.node.getChildByName("ChoosTips").getComponent(chooseTipCtrl);
       this.confirmTips = this.node.getChildByName("ConfirmTips").getComponent(confirmTipCtrl);
       this.winGui = this.node.getChildByName("winTips").getComponent(winGuiCtrl);
+      this.tinyTip = this.node.getChildByName("TinyTip").getComponent(tinyTipCtrl);
 
       CustomEventListener.on(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);
       CustomEventListener.on(Constants.EventName.CONFIRMTIP,this.showConfirmTips,this);
       CustomEventListener.on(Constants.EventName.SHOWWINGUI,this.showWinGui,this);
-      CustomEventListener.on(Constants.EventName.SHOWBULLETTIP,this.showEndGui,this);
+      CustomEventListener.on(Constants.EventName.SHOWBULLETTIP,this.showBulletTip,this);
       CustomEventListener.on(Constants.EventName.TINYTIP,this.showTinyTip,this);
     }
 
@@ -81,15 +82,15 @@ export class TipsCtrl extends Component {
     }
 
     showTinyTip(text:string){
-      this.tinyTipCtrl.active = true;
-      this.tinyTipCtrl.show(text);
+      this.tinyTip.node.active = true;
+      this.tinyTip.show(text);
     }
 
     onDisable(){
       CustomEventListener.off(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);
       CustomEventListener.off(Constants.EventName.CONFIRMTIP,this.showConfirmTips,this);
-      CustomEventListener.off(Constants.EventName.SHOWWINGUI,this.showEndGui,this);
-      CustomEventListener.off(Constants.EventName.SHOWBULLETTIP,this.showEndGui,this);
+      CustomEventListener.off(Constants.EventName.SHOWWINGUI,this.showWinGui,this);
+      CustomEventListener.off(Constants.EventName.SHOWBULLETTIP,this.showBulletTip,this);
       CustomEventListener.off(Constants.EventName.TINYTIP,this.showTinyTip,this);
     }
 

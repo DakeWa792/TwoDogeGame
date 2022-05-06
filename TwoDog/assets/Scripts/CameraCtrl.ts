@@ -27,19 +27,22 @@ export class CameraCtrl extends Component {
 
     bgNode:Node = null;
     ScreenNode:Node = null;
+    seaNode:Node = null;
 
     isInGame:boolean = false;
 
-    enterGame(pos:Vec2){
+    enterGame(pos:Vec2|Vec3){
       this.playerTransfor = this.node.parent.getChildByName("Player").getChildByName("Human").getComponent(UITransform);
       this.transform = this.node.parent.getComponent(UITransform);
       this.bgNode = this.node.parent.getChildByName("Bg");
       this.ScreenNode = this.node.parent.getChildByName("ScreenGui");
+      this.seaNode = this.node.parent.getChildByName("Sea");
 
       let c_pos = this.transform.convertToNodeSpaceAR(new Vec3(pos.x,pos.y,0));
       this.node.setPosition(new Vec3(c_pos.x,c_pos.y,1000));
       this.bgNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
       this.ScreenNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
+      this.seaNode.setPosition(new Vec3(c_pos.x,-433,0));
 
       this.isInGame = true;
 
@@ -51,6 +54,7 @@ export class CameraCtrl extends Component {
       this.node.setPosition(new Vec3(0,0,1000));
       this.bgNode.setPosition(new Vec3(0,0,0));
       this.ScreenNode.setPosition(new Vec3(0,0,0));
+      this.seaNode.setPosition(new Vec3(0,-433,0));
     }
 
     closeUpdate(){
@@ -68,7 +72,7 @@ export class CameraCtrl extends Component {
       this.node.setPosition(new Vec3(c_pos.x,c_pos.y,1000));
       this.bgNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
       this.ScreenNode.setPosition(new Vec3(c_pos.x,c_pos.y,0));
-
+      this.seaNode.setPosition(new Vec3(c_pos.x,-433,0));
     }
     
 }

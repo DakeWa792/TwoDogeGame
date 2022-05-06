@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, Vec2 } from 'cc';
+import { _decorator, Component, Node, Vec2, UITransform, Vec3 } from 'cc';
 import { CameraCtrl } from './CameraCtrl';
 import { Configuration } from './FrameWork/Configuration';
 import { Constants } from './FrameWork/Constants';
@@ -28,6 +28,9 @@ export class Main extends Component {
 
     @property(InGameScreen)
     inGame_Screen:InGameScreen = null;
+
+    @property(Node)
+    saveNode:Node = null;
 
     sceneNode:Node = null;
     seaNode:Node = null;
@@ -116,10 +119,19 @@ export class Main extends Component {
 
     //视频观看完成，继续游戏
     revivalGame(){
-      
+      let pos:Vec2|Vec3 = startPos;
+      let saveTag = RunTimeData.instance().revivePoint;
 
+      if (saveTag>0){
+        let tpPos = this.saveNode[saveTag-1].worldPosition;
+        pos = this.node.getComponent(UITransform).convertToNodeSpaceAR(tpPos);
+      }
+
+      this.playerCtrl.restartGame(pos);
+      this.cameraCtrl.enterGame(pos);
       
       CustomEventListener.dispatchEvent (Constants.EventName.CLOSEFAILGUI);
+      this.playerCtrl.openOperate();
     }
 
     endGame(){
