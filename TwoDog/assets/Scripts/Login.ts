@@ -3,6 +3,7 @@ import { _decorator, Component, Node, Label, sys } from 'cc';
 import { BulletStorge } from './FrameWork/BulletStorge';
 import { Constants } from './FrameWork/Constants';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
+import { RunTimeData } from './FrameWork/GameData';
 const { ccclass, property } = _decorator;
 
 
@@ -57,11 +58,11 @@ export class Login extends Component {
     }
 
     onEnable(){
-      CustomEventListener.on(Constants.EventName.upLoadScore,this.upLoadScore,this);
+      CustomEventListener.on(Constants.EventName.UPLOADSCORE,this.upLoadScore,this);
     }
 
     onDisable(){
-      CustomEventListener.off(Constants.EventName.upLoadScore,this.upLoadScore,this);
+      CustomEventListener.off(Constants.EventName.UPLOADSCORE,this.upLoadScore,this);
     }
 
     initLitsBullet(){

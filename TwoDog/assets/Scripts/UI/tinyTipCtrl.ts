@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label,Tween } from 'cc';
+import { _decorator, Component, Node, Label,Tween, Color, Vec3 } from 'cc';
 import { Constants } from '../FrameWork/Constants';
 import { CustomEventListener } from '../FrameWork/CustomEventListener';
 const { ccclass, property } = _decorator;
@@ -22,7 +22,7 @@ export class tinyTipCtrl extends Component{
 	this.contLab.string = text;
 
   	this.contLab.color = new Color(0,0,0,255);
-  	this.contLab.Enabled = true;
+  	this.contLab.enabled = true;
 
   	let moveTween = new Tween(this.node);
   	moveTween.to(3,{ position: new Vec3(0, 75, 0)}).call(()=>{
@@ -32,14 +32,14 @@ export class tinyTipCtrl extends Component{
 
   	let tpC = new Color(0,0,0,255);
   	let colorTween = new Tween(tpC);
-  	colorTween.to(3,{r:255, g:255, b:255,a:0},{ "onUpdate": function (target) { this.contLab.color = target; }})start();
+  	colorTween.to(3,{r:255, g:255, b:255,a:0},{ "onUpdate": function (target) { this.contLab.color = target; }}).start();
 
   }
 
   init(){
 	this.isShowing = false;
 	this.contLab.string = "";
-	this.contLab.Enabled = false;
+	this.contLab.enabled = false;
 	this.node.setPosition(new Vec3(0,0,0));
   }
 

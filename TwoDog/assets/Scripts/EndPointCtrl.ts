@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, BoxCollider2D, Contact2DType } from 'cc';
+import { _decorator, Component, Node, BoxCollider2D, Contact2DType, Collider2D, IPhysics2DContact } from 'cc';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
 import { Constants } from './FrameWork/Constants';
 const { ccclass, property } = _decorator;
@@ -32,7 +32,7 @@ export class EndPointCtrl extends Component {
     }
 
     enterEndPoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
-      if (otherCollider.GrounpId == "Player" && !this.isTrigger){
+      if (otherCollider.group == 1 && !this.isTrigger){
         this.scheduleOnce(function(){
         this.isTrigger = true;
         CustomEventListener.dispatchEvent (Constants.EventName.ENDGAME);

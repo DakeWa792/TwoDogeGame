@@ -1,7 +1,8 @@
 
-import { _decorator, Component, Node, BoxCollider2D, Contact2DType } from 'cc';
+import { _decorator, Component, Node, BoxCollider2D, Contact2DType, Collider2D, IPhysics2DContact } from 'cc';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
 import { Constants } from './FrameWork/Constants';
+import { RunTimeData } from './FrameWork/GameData';
 const { ccclass, property } = _decorator;
 
 /**
@@ -19,7 +20,8 @@ const { ccclass, property } = _decorator;
 @ccclass('SavePointCtrl')
 export class SavePointCtrl extends Component {
     // [1]
-    // dummy = '';
+    @property(Number)
+    tag:number = 0;
 
     isTrigger:boolean = false;
 
@@ -28,10 +30,11 @@ export class SavePointCtrl extends Component {
     }
 
     enterEndPoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
-      if (otherCollider.GrounpId == "Player" && !isTrigger){
+      if (otherCollider.group == 1 && !this.isTrigger){
         //触发视频
 
         this.isTrigger = true;
+        RunTimeData.instance().playerData.saverevivePoint(this.tag);
       }
     }
 

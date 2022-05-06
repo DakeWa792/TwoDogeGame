@@ -59,7 +59,7 @@ export class winGuiCtrl extends Component {
     }
     else{
       this.isWaitingUpload = true;
-      CustomEventListener.dispatchEvent (Constants.EventName.upLoadScore);
+      CustomEventListener.dispatchEvent (Constants.EventName.UPLOADSCORE);
     }
    }
 
@@ -67,7 +67,7 @@ export class winGuiCtrl extends Component {
    upLoadScore_callBack(){
      //隐藏摄像头角标
 
-     this.isCanUplaod = true；
+     this.isCanUplaod = true;
    }
 
 

@@ -125,7 +125,7 @@ export class Main extends Component {
     endGame(){
       this.playerCtrl.closeOperate();
       this.cameraCtrl.closeUpdate();
-      CustomEventListener.dispatchEvent (Constants.EventName.showWinGui);
+      CustomEventListener.dispatchEvent (Constants.EventName.SHOWWINGUI);
     }
 
     

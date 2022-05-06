@@ -38,6 +38,7 @@ export class RunTimeData {
 interface IPlayerInfo {
     position: Vec2,
     time: number,
+    revivePoint:number,
 }
 
 @ccclass("PlayerData")
