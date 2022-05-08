@@ -32,7 +32,7 @@ export class TipsCtrl extends Component {
       this.curTips = null;
       this.chooseTips = this.node.getChildByName("ChoosTips").getComponent(chooseTipCtrl);
       this.confirmTips = this.node.getChildByName("ConfirmTips").getComponent(confirmTipCtrl);
-      this.winGui = this.node.getChildByName("winTips").getComponent(winGuiCtrl);
+      this.winGui = this.node.getChildByName("WinTips").getComponent(winGuiCtrl);
       this.tinyTip = this.node.getChildByName("TinyTip").getComponent(tinyTipCtrl);
 
       CustomEventListener.on(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);

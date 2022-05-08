@@ -25,14 +25,18 @@ export class tinyTipCtrl extends Component{
   	this.contLab.enabled = true;
 
   	let moveTween = new Tween(this.node);
-  	moveTween.to(3,{ position: new Vec3(0, 75, 0)}).call(()=>{
+  	moveTween.to(3,{ position: new Vec3(0, 250, 0)}).call(()=>{
   		this.init();
   		this.node.active = false;
   	}).start();
 
   	let tpC = new Color(0,0,0,255);
   	let colorTween = new Tween(tpC);
-  	colorTween.to(3,{r:255, g:255, b:255,a:0},{ "onUpdate": function (target) { this.contLab.color = target; }}).start();
+    let tpLab = this.contLab;
+  	colorTween.to(3,{r:255, g:255, b:255,a:50},{ "onUpdate": function (target:Color){
+      tpLab.color = target; 
+      }
+    }).start();
 
   }
 

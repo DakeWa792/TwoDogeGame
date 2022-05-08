@@ -6,7 +6,7 @@ import { CustomEventListener } from './FrameWork/CustomEventListener';
 import { RunTimeData } from './FrameWork/GameData';
 const { ccclass, property } = _decorator;
 
-
+const BOARD_ID = "TwoDogTime";
 
 
  
@@ -34,6 +34,8 @@ export class Login extends Component {
 
     chatConnect:number = 0;
 
+    getBoardFail:boolean = false;
+
     onLoad(){
       this.initLitsBullet();
       
@@ -51,7 +53,7 @@ export class Login extends Component {
         if (!this.client || !this.session || !this.socket){
           return
         }
-
+        this.upLoadScore();
         this.checkChat();
 
       },1,10)
@@ -294,18 +296,40 @@ export class Login extends Component {
       this.initSession();
       this.initSocket();
 
-      let score = RunTimeData.instance().gameTime;
-      let P_score:Promise<any> = this.client.writeLeaderboardRecord(this.session,"TwoDog_time",score);
+      //let score = RunTimeData.instance().gameTime;
+      let score:number = 120;
+      let subscore = 0;
+      let metadata = {
+        "user_name":"testUser"
+      };
+
+      let P_score:Promise<any> = this.client.writeLeaderboardRecord(this.session,BOARD_ID,score);
 
       P_score.then((response)=>{
+        this.getBoardList();
         console.log("Successfully uplaod score");
         CustomEventListener.dispatchEvent (Constants.EventName.UPLOADSUCEES,true);
       },(error)=>{
         //弹出提示文字，提示上传失败
+        this.getBoardList();
         CustomEventListener.dispatchEvent (Constants.EventName.UPLOADSUCEES,false);
         CustomEventListener.dispatchEvent (Constants.EventName.TINYTIP,"分数上传排行榜失败，请检查您的网络后重试");
-        console.error("Uplaod score failed!");
+        console.error("Uplaod score failed!", JSON.stringify(error));
       });
+
+      
+    }
+
+    getBoardList(){
+
+      let P_board:Promise<any> = this.client.listLeaderboardRecords(this.session,BOARD_ID,null,50);
+      P_board.then((response)=>{
+        console.log("Successfully get learnBoardList");
+        console.log(response)
+      },(error)=>{
+        this.getBoardFail = true;
+        console.error("Get learnBoardList failed!", JSON.stringify(error));
+      })
 
     }
 
