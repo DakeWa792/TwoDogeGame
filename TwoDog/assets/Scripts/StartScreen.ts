@@ -38,6 +38,9 @@ export class StartScreen extends Component {
     @property(Node)
     weapon_Shop_Gui:Node = null;
 
+    @property(Node)
+    rank_Gui:Node = null;
+
     curNode:Node = null;
 
     onLoad(){
@@ -65,7 +68,13 @@ export class StartScreen extends Component {
     }
 
     showRankGui(){
+      if (this.curNode){
+        this.curNode.active = false;
+      }
 
+      this.curNode = this.rank_Gui;
+
+      this.rank_Gui.active = true;
     }
 
     showShopGui(){

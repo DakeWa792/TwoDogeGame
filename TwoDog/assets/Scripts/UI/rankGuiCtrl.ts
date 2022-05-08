@@ -1,5 +1,6 @@
 
-import { _decorator, Component, Node, ScrollViewComponent } from 'cc';
+import { _decorator, Component, Node, ScrollViewComponent, find, Label, Prefab, instantiate } from 'cc';
+import { Login } from '../Login';
 const { ccclass, property } = _decorator;
 
 /**
@@ -18,6 +19,8 @@ const { ccclass, property } = _decorator;
 export class rankGuiCtrl extends Component {
     // [1]
     // dummy = '';
+    @property(Prefab)
+    itemPrefab:Prefab = null;
 
     @property(Node)
     close_btn:Node = null;
@@ -25,13 +28,63 @@ export class rankGuiCtrl extends Component {
     @property(ScrollViewComponent)
     rank_scroll:ScrollViewComponent = null;
 
-    start () {
-        // [3]
+    @property(Label)
+    emptyLab:Label = null;
+
+    _login:Login = null;
+
+    onLoad(){
+      this._login = find("Login").getComponent(Login); 
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    onEnable () {
+       this.close_btn.on(Node.EventType.TOUCH_START,this.close,this);
+       
+       
+        let len = this._login.listBoard.length;
+        if (len <= 0){
+        this.emptyLab.node.active = true;
+        if(this._login.getBoardFail){
+            this.emptyLab.string = "网络连接失败,未能成功读取排行榜";
+        }else{
+            this.emptyLab.string = "空空如也，就等你来上榜了~~";
+        }
+       }else{
+        this.emptyLab.node.active = false;
+
+        let content = this.rank_scroll.content;
+        
+        content.children.forEach(element =>{
+            if(Number(element.name)>=len){
+                element.destroy();
+            }
+        });
+
+        let i;
+        for (i=0;i<len;i++){
+            
+            let tpName = i;
+            let rankItem = content.getChildByName(tpName);
+            if (!rankItem){
+                rankItem = instantiate(this.itemPrefab);
+                rankItem.parent = content;
+                rankItem.name = i;
+            }
+            rankItem.children[0].getComponent(Label).string = i+1;
+            rankItem.children[1].getComponent(Label).string = this._login.listBoard[i].name;
+            rankItem.children[2].getComponent(Label).string = this._login.listBoard[i].score;
+        }
+
+       }
+    }
+
+    close(){
+        this.node.active = false;
+    }
+
+    onDisable(){
+        this.close_btn.off(Node.EventType.TOUCH_START,this.close,this);
+    }
 }
 
 /**

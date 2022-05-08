@@ -38,10 +38,13 @@
       },
       {
         "__id__": 52
+      },
+      {
+        "__id__": 54
       }
     ],
     "_prefab": {
-      "__id__": 54
+      "__id__": 56
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -1144,6 +1147,46 @@
     "fileId": "91QiN2t8hEI5NQktoc9hWS"
   },
   {
+    "__type__": "0cf28YXKe1OW6A4ujN6PHf2",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 53
+    },
+    "icon": [
+      {
+        "__uuid__": "6c7dc965-ef39-4c9a-ba76-fc117d652ace@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      null,
+      {
+        "__uuid__": "ee43fdaf-4a5c-449b-9ff0-0e01c79f5349@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "f12c8cea-f3e1-4b90-bc0f-787796448346@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "bb217d6a-8e55-460d-993c-b54ff854c589@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "f4c2f0a3-d91c-43bb-91e7-70c452907574@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      }
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "f4+hd4EiVOUYI4sD21a7H9"
+  },
+  {
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
@@ -1153,7 +1196,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 53
+      "__id__": 55
     },
     "_visFlags": 0,
     "_customMaterial": null,

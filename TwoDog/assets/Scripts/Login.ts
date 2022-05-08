@@ -26,7 +26,9 @@ export class Login extends Component {
     labTxt:Label = null;
 
     listCursor:any = null;
-    listBullet:any = new Array();
+    listBullet:any[] = new Array();
+    listBoard:any[] = new Array();
+
 
     joinChat:boolean = false;
 
@@ -35,6 +37,7 @@ export class Login extends Component {
     chatConnect:number = 0;
 
     getBoardFail:boolean = false;
+
 
     onLoad(){
       this.initLitsBullet();
@@ -322,7 +325,7 @@ export class Login extends Component {
 
     getBoardList(){
 
-      let P_board:Promise<any> = this.client.listLeaderboardRecords(this.session,BOARD_ID,null,50);
+      let P_board:Promise<any> = this.client.listLeaderboardRecords(this.session,BOARD_ID,null,25);
       P_board.then((response)=>{
         console.log("Successfully get learnBoardList");
         console.log(response)
