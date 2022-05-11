@@ -1,5 +1,6 @@
 
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, Node, Prefab, instantiate } from 'cc';
+import { Constants } from '../FrameWork/Constants';
 const { ccclass, property } = _decorator;
 
 /**
@@ -18,24 +19,37 @@ const { ccclass, property } = _decorator;
 export class shopGuiCtrl extends Component {
     // [1]
     // dummy = '';
-
+    //商店界面
     @property(Node)
     shopNode:Node = null;
 
+    //获得物品界面
     @property(Node)
     getItemNode:Node = null;
 
+    //展示物品的layout界面
+    @property(Node)
+    showItemNode:Node = null;
+
+    //展示的prefab
+    @property(Prefab)
+    shopChuizi:Prefab = null;
+
     isOpenGetGui:boolean = false;
 
+    //随机解锁按钮
     @property(Node)
     choose_btn:Node = null;
 
+    //关闭商店界面
     @property(Node)
     close_Shop:Node = null;
 
+    //关闭获得物品界面
     @property(Node)
     close_getGui:Node = null;
 
+    //当前获得物品
     @property(Node)
     curGetItem:Node = null;
 
@@ -49,6 +63,20 @@ export class shopGuiCtrl extends Component {
 
     start () {
         // [3]
+    }
+
+    checkAndShowAllWeapons(){
+      let i,j;
+      for (i=0;i<Constants.WeaponsNum;i++){
+        let weap_name = "hammerIcon"+i;
+        let weap_icon = this.showItemNode.getChildByName(weap_name);
+        if (!weap_icon){
+          weap_icon = instantiate(this.shopChuizi);
+          weap_icon.name = "hammerIcon"+i;
+          weap_icon.parent =this.showItemNode;
+        }
+      }
+
     }
 
     onDisable(){

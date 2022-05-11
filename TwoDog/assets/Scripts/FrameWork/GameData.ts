@@ -33,17 +33,22 @@ export class RunTimeData {
     get revivePoint(){
         return this.playerData.playerInfo.revivePoint;
     }
+
+    get ownWeapon(){
+        return this.playerData.playerInfo.ownWeapons;
+    }
 }
 
 interface IPlayerInfo {
     position: Vec2,
     time: number,
     revivePoint:number,
+    ownWeapons:number[],
 }
 
 @ccclass("PlayerData")
 export class PlayerData {
-    public playerInfo: IPlayerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:0};
+    public playerInfo: IPlayerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:0,ownWeapons:[0]};
 
     static _instance: PlayerData = null!;
     public static instance() {
@@ -69,6 +74,19 @@ export class PlayerData {
       this.playerInfo.position = new Vec2(pos.x,pos.y);
     }
     
+    public saveOwnWeapon(weaponTag:number){
+      let hasOwned = false;
+      this.playerInfo.ownWeapons.forEach(Element =>{
+        if (Element==weaponTag){
+          hasOwned = true;
+        }
+      });
+      if (!hasOwned){
+        this.playerInfo.ownWeapons.push(weaponTag);
+      }
+      
+    }
+
     public saverevivePoint(num:number){
         if(num>this.playerInfo.revivePoint){
           this.playerInfo.revivePoint = num;
@@ -81,7 +99,10 @@ export class PlayerData {
     }
 
     public recoverPlayerInfo(){
-        this.playerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:0};
+        this.playerInfo.position = new Vec2(-110,-115);
+        this.playerInfo.time = 0;
+        this.playerInfo.revivePoint = 0;
+        
         const data = JSON.stringify(this.playerInfo);
         Configuration.instance().setConfigData(Constants.PlayerConfigID, data);
     }

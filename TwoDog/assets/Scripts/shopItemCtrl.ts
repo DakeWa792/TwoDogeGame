@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, SpriteFrame } from 'cc';
+import { _decorator, Component, Node, SpriteFrame, Sprite } from 'cc';
 const { ccclass, property } = _decorator;
 
 /**
@@ -22,13 +22,49 @@ export class shopItemCtrl extends Component {
     @property([SpriteFrame])
     icon:SpriteFrame[] = [];
 
-    start () {
-        // [3]
+    //展示icon的Sprite
+    @property(Sprite)
+    iconSpr:Sprite = null;
+
+    //未解锁的锁定标志
+    @property(Node)
+    lockNode:Node = null;
+
+    //已解锁的解锁标志
+    @property(Node)
+    getNode:Node = null;
+
+    //已装备的装备标志
+    @property(Node)
+    useNode:Node = null;
+
+    isUnlock:boolean = false;
+    weaponTag:number = null;
+    isEnquiped:boolean = false;
+
+    onLoad () {
+      
     }
 
-    // update (deltaTime: number) {
-    //     // [4]
-    // }
+    initTag(tag:number){
+      this.iconSpr.spriteFrame = this.icon[tag];
+      this.useNode.active = false;
+    }
+
+    isGetWeapon(isGet:boolean){
+      if (isGet){
+        this.getNode.active = true;
+        this.lockNode.active = false;
+      }else{
+        this.getNode.active = false;
+        this.lockNode.active = true;
+      }
+    }
+
+    useWeapon(bool:boolean){
+      this.useNode.active = bool;
+    }
+    
 }
 
 /**

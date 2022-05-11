@@ -31,6 +31,15 @@ enum EventName {
   UPLOADFAIL = 'upload_fail',
 }
 
+enum Weapons{
+  Hammer0 = 'Hammer_1',
+  Hammer1 = 'Hammer_2',
+  Hammer2 = 'Hammer_3',
+  Hammer3 = 'Hammer_4',
+  Hammer4 = 'Hammer_5',
+  Hammer5 = 'Hammer_6',
+}
+
 enum VideoEvent {
     CALLBACKSCORE =  'upLoadScore_callBack',
     UNLOCKBULLET = 'unlockBullet',
@@ -60,7 +69,9 @@ enum CarGroup {
 export class Constants {
     public static EventName = EventName;
     public static VideoEvent = VideoEvent;
-
+    public static Weapons = Weapons;
+    public static WeaponsNum = 6;
+    
     public static talkTable = [
         'Please hurry up.\n I have a plane to catch',
         'The most beautiful day \nis not the rainy day',

@@ -112956,7 +112956,7 @@
     "_priority": 1073741824,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 365.9130434782609,
+    "_orthoHeight": 353.5609756097561,
     "_near": 1,
     "_far": 2000,
     "_color": {
@@ -119298,6 +119298,13 @@
     },
     "getItemNode": {
       "__id__": 2870
+    },
+    "showItemNode": {
+      "__id__": 2846
+    },
+    "shopChuizi": {
+      "__uuid__": "3fa193e5-d0fa-4c58-a342-49f53672381b",
+      "__expectedType__": "cc.Prefab"
     },
     "choose_btn": {
       "__id__": 2857
