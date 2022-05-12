@@ -1,5 +1,6 @@
 
 import { _decorator, Component, Node, SpriteFrame, Sprite } from 'cc';
+import { RunTimeData } from './FrameWork/GameData';
 const { ccclass, property } = _decorator;
 
 /**
@@ -13,7 +14,7 @@ const { ccclass, property } = _decorator;
  * ManualUrl = https://docs.cocos.com/creator/3.4/manual/zh/
  *
  */
- 
+
 @ccclass('shopItemCtrl')
 export class shopItemCtrl extends Component {
     // [1]

@@ -37,6 +37,10 @@ export class RunTimeData {
     get ownWeapon(){
         return this.playerData.playerInfo.ownWeapons;
     }
+
+    get euipedWeapon(){
+      return this.playerData.playerInfo.euipedWeap;
+    }
 }
 
 interface IPlayerInfo {
@@ -44,11 +48,12 @@ interface IPlayerInfo {
     time: number,
     revivePoint:number,
     ownWeapons:number[],
+    euipedWeap:number,
 }
 
 @ccclass("PlayerData")
 export class PlayerData {
-    public playerInfo: IPlayerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:0,ownWeapons:[0]};
+    public playerInfo: IPlayerInfo = {position: new Vec2(-110,-115), time: 0, revivePoint:0,ownWeapons:[0],euipedWeap:0};
 
     static _instance: PlayerData = null!;
     public static instance() {
@@ -91,6 +96,10 @@ export class PlayerData {
         if(num>this.playerInfo.revivePoint){
           this.playerInfo.revivePoint = num;
         }   
+    }
+
+    public saveEuipedWeap(tag:number){
+      this.playerInfo.euipedWeap = tag;
     }
 
     public savePlayerInfoToCache(){

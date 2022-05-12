@@ -43,6 +43,7 @@ enum Weapons{
 enum VideoEvent {
     CALLBACKSCORE =  'upLoadScore_callBack',
     UNLOCKBULLET = 'unlockBullet',
+    UNLOCKWEAPON = 'unlockWeapon',
 }
 
 enum AudioSource {
