@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, BoxCollider2D, Contact2DType, Collider2D, IPhysics2DContact } from 'cc';
+import { _decorator, Component, Node, BoxCollider2D, Contact2DType, Collider2D, IPhysics2DContact, tiledLayerAssembler, RigidBody2D } from 'cc';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
 import { Constants } from './FrameWork/Constants';
 import { RunTimeData } from './FrameWork/GameData';
@@ -21,26 +21,53 @@ const { ccclass, property } = _decorator;
 export class SavePointCtrl extends Component {
     // [1]
     @property(Number)
-    tag:number = 0;
+    saveTag:number = null;
 
     isTrigger:boolean = false;
+    isSaved:boolean = false;
 
-    start () {
-      this.node.getComponent(BoxCollider2D).on(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
-    }
-
-    enterEndPoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
-      if (otherCollider.group == 1 && !this.isTrigger){
-        //触发视频
-
-        this.isTrigger = true;
-        RunTimeData.instance().playerData.saverevivePoint(this.tag);
-      }
+    onEnable () {  
+      this.node.getComponent(RigidBody2D).enabledContactListener = true;
+      this.node.getComponent(BoxCollider2D).on(Contact2DType.BEGIN_CONTACT,this.enterSavePoint,this);
+      this.node.getComponent(BoxCollider2D).on(Contact2DType.END_CONTACT,this.leaveSavePoint,this);
+      CustomEventListener.on(Constants.VideoEvent.SAVEPOINTSUC,this.savePointSucess,this);
     }
 
     onDisable(){
+      this.node.getComponent(RigidBody2D).enabledContactListener = false;
       this.isTrigger = false;
-      this.node.getComponent(BoxCollider2D).off(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
+      this.isSaved = false;
+      this.node.getComponent(BoxCollider2D).off(Contact2DType.BEGIN_CONTACT,this.enterSavePoint,this);
+      this.node.getComponent(BoxCollider2D).off(Contact2DType.END_CONTACT,this.leaveSavePoint,this);
+      CustomEventListener.off(Constants.VideoEvent.SAVEPOINTSUC,this.savePointSucess,this);
+    }
+
+    enterSavePoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
+      console.log('SavePointCtrl');
+      console.log(otherCollider.tag);
+      console.log(this.isTrigger);
+      console.log(this.isSaved);
+      if (otherCollider.tag == 1 && !this.isTrigger && !this.isSaved){
+        
+        console.log('SavePointCtrl');
+        this.isTrigger = true;
+
+      //触发视频后：
+        RunTimeData.instance().playerData.saverevivePoint(this.saveTag);
+        this.isSaved = true;
+      }
+    }
+    leaveSavePoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
+      if (otherCollider.tag == 1 && this.isTrigger){
+        this.isTrigger = false;
+      }
+    }
+
+    savePointSucess(tag:number){
+      if (tag ==this.saveTag && !this.isSaved){
+        RunTimeData.instance().playerData.saverevivePoint(this.saveTag);
+        this.isSaved = true;
+      }
     }
 }
 

@@ -7,6 +7,7 @@ import { chooseTipCtrl } from './UI/chooseTipCtrl';
 import { confirmTipCtrl } from './UI/confirmTipCtrl';
 import { winGuiCtrl } from './UI/winGuiCtrl';
 import { tinyTipCtrl } from './UI/tinyTipCtrl';
+import { failGuiCtrl } from './UI/failGuiCtrl';
 
 const { ccclass, property } = _decorator;
 
@@ -25,6 +26,7 @@ export class TipsCtrl extends Component {
     winGui:winGuiCtrl = null;
     bulletTip:bulletTipCtrl = null;
     tinyTip:tinyTipCtrl = null;
+    failGui:failGuiCtrl = null;
 
     curTips:Node = null;
 
@@ -33,13 +35,24 @@ export class TipsCtrl extends Component {
       this.chooseTips = this.node.getChildByName("ChoosTips").getComponent(chooseTipCtrl);
       this.confirmTips = this.node.getChildByName("ConfirmTips").getComponent(confirmTipCtrl);
       this.winGui = this.node.getChildByName("WinTips").getComponent(winGuiCtrl);
+      this.failGui = this.node.getChildByName("FailTips").getComponent(failGuiCtrl); 
       this.tinyTip = this.node.getChildByName("TinyTip").getComponent(tinyTipCtrl);
 
       CustomEventListener.on(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);
       CustomEventListener.on(Constants.EventName.CONFIRMTIP,this.showConfirmTips,this);
       CustomEventListener.on(Constants.EventName.SHOWWINGUI,this.showWinGui,this);
+      CustomEventListener.on(Constants.EventName.SHOWFAILGUI,this.showFailGui,this);
       CustomEventListener.on(Constants.EventName.SHOWBULLETTIP,this.showBulletTip,this);
       CustomEventListener.on(Constants.EventName.TINYTIP,this.showTinyTip,this);
+    }
+
+    onDisable(){
+      CustomEventListener.off(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);
+      CustomEventListener.off(Constants.EventName.CONFIRMTIP,this.showConfirmTips,this);
+      CustomEventListener.off(Constants.EventName.SHOWWINGUI,this.showWinGui,this);
+      CustomEventListener.off(Constants.EventName.SHOWFAILGUI,this.showFailGui,this);
+      CustomEventListener.off(Constants.EventName.SHOWBULLETTIP,this.showBulletTip,this);
+      CustomEventListener.off(Constants.EventName.TINYTIP,this.showTinyTip,this);
     }
 
     showChooseTips(text:string,event:string){
@@ -72,6 +85,15 @@ export class TipsCtrl extends Component {
       this.winGui.node.active = true;
     }
 
+    showFailGui(){
+      if (this.curTips){
+        this.curTips.active = false;
+      }
+      this.curTips = this.failGui.node;
+
+      this.failGui.node.active = true;
+    }
+
     showBulletTip(){
       if (this.curTips){
         this.curTips.active = false;
@@ -86,13 +108,7 @@ export class TipsCtrl extends Component {
       this.tinyTip.show(text);
     }
 
-    onDisable(){
-      CustomEventListener.off(Constants.EventName.SHOWCHOOSETIP,this.showChooseTips,this);
-      CustomEventListener.off(Constants.EventName.CONFIRMTIP,this.showConfirmTips,this);
-      CustomEventListener.off(Constants.EventName.SHOWWINGUI,this.showWinGui,this);
-      CustomEventListener.off(Constants.EventName.SHOWBULLETTIP,this.showBulletTip,this);
-      CustomEventListener.off(Constants.EventName.TINYTIP,this.showTinyTip,this);
-    }
+   
 
 }
 

@@ -1,5 +1,5 @@
 
-import { _decorator, Component, Node, BoxCollider2D, Contact2DType, Collider2D, IPhysics2DContact } from 'cc';
+import { _decorator, Component, Node, BoxCollider2D, Contact2DType, Collider2D, IPhysics2DContact, RigidBody2D } from 'cc';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
 import { Constants } from './FrameWork/Constants';
 const { ccclass, property } = _decorator;
@@ -25,24 +25,34 @@ export class EndPointCtrl extends Component {
 
     onEnable(){
       this.isTrigger = false;
-    }
-
-    start () {
+      this.node.getComponent(RigidBody2D).enabledContactListener = true;
       this.node.getComponent(BoxCollider2D).on(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
     }
 
+    onDisable(){
+      this.node.getComponent(RigidBody2D).enabledContactListener = false;
+      this.node.getComponent(BoxCollider2D).off(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
+    }
+
     enterEndPoint(selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null){
-      if (otherCollider.group == 1 && !this.isTrigger){
-        this.scheduleOnce(function(){
-        this.isTrigger = true;
-        CustomEventListener.dispatchEvent (Constants.EventName.ENDGAME);
-      },5);
+      if (otherCollider.tag == 1 && !this.isTrigger){
+        CustomEventListener.dispatchEvent(Constants.EventName.PAUESEGAME);
+        let countDown = 5;
+        this.schedule(function(){
+          let str:string = "恭喜你达到终点，将在"+countDown+"秒后结束游戏";
+          countDown--;
+          CustomEventListener.dispatchEvent(Constants.EventName.TINYTIP,str);
+
+          if (countDown <=-1){
+            this.isTrigger = true;
+            CustomEventListener.dispatchEvent(Constants.EventName.ENDGAME);
+          }
+        },1,5);
+
       }
     }
 
-    onDisable(){
-      this.node.getComponent(BoxCollider2D).off(Contact2DType.BEGIN_CONTACT,this.enterEndPoint,this);
-    }
+    
 }
 
 /**

@@ -1,7 +1,8 @@
 
-import { _decorator, Component, Node, RigidBody2D, input, Input, EventTouch, Vec2, EventMouse, sp, UITransform, Vec3, Quat, misc, Collider2D, Contact2DType, BoxCollider2D, sys } from 'cc';
+import { _decorator, Component, Node, RigidBody2D, input, Input, EventTouch, Vec2, EventMouse, sp, UITransform, Vec3, Quat, misc, Collider2D, Contact2DType, BoxCollider2D, sys, Prefab, instantiate } from 'cc';
 import { Constants } from './FrameWork/Constants';
 import { CustomEventListener } from './FrameWork/CustomEventListener';
+import { RunTimeData } from './FrameWork/GameData';
 const { ccclass, property } = _decorator;
 
 
@@ -19,6 +20,9 @@ const { ccclass, property } = _decorator;
  
 @ccclass('PlayerCtrl')
 export class PlayerCtrl extends Component {
+    @property([Prefab])
+    hammer_Pr:Prefab[] = [];
+
     endPos:Node = null;
     canmeraNode:Node = null;
 
@@ -36,7 +40,7 @@ export class PlayerCtrl extends Component {
     hammerRig2D:RigidBody2D = null;
     mouseTarRig2D:RigidBody2D = null;
 
-    hammerCollider:BoxCollider2D = null;
+    hammerCollider:Collider2D = null;
 
     targetPosition:Vec2 = new Vec2(0,0);
 
@@ -74,23 +78,40 @@ export class PlayerCtrl extends Component {
       this.ScreenWidth = this.node.parent.getComponent(UITransform).contentSize.width/2;
       this.ScreenHeight = this.node.parent.getComponent(UITransform).contentSize.height/2;
       
-      this.endPos = this.node.children[3];
+      this.endPos = this.node.getChildByName("EndPos");
       
       this.canmeraNode = this.node.parent.getChildByName("Camera");
-      this.mouseTarget = this.node.children[2];
+      this.mouseTarget = this.node.getChildByName("MouseTarget");
 
-      this.human = this.node.children[0];
-      this.hammer = this.node.children[1];
+      //读取锤子数据
+      let tag = RunTimeData.instance().euipedWeapon;
+      this.hammer = this.node.getChildByName("Hammer");
+
+      if (this.hammer){
+        this.hammer.destroy();
+      }
+      
+      console.log(this.hammer);
+      this.hammer = instantiate(this.hammer_Pr[tag]);
+      this.hammer.parent = this.node;
+
+      this.human = this.node.getChildByName("Human");
+      
       this.hammer_anchor = this.hammer.getChildByName("Ham");     //锤子头部节点
       this.ham_root_L = this.hammer.getChildByName("RootLeft");   //左手握的锤子的位置
       this.ham_root_R = this.hammer.getChildByName("RootRight");  //右手握的锤子的位置
       
+      let hammer_sprite = this.hammer.getChildByName("Sprite");
 
-      this.hammerCollider = this.hammer.getComponent(BoxCollider2D); //锤子的碰撞体，只有头部存在
+      let posY = hammer_sprite.getComponent(UITransform).contentSize.height;
+      this.hammer.position = new Vec3(this.endPos.position.x,(this.endPos.position.y+posY),0);
+
+      this.hammerCollider = this.hammer.getComponent(Collider2D); //锤子的碰撞体，只有头部存在
      
       //锤子长度
       this.hammerLen = this.hammer.getComponent(UITransform).contentSize.height - this.hammer_anchor.getComponent(UITransform).contentSize.height/2;
 
+      //读取玩家节点数据
       this.playerRig2D = this.node.getComponent(RigidBody2D);
       this.hammerRig2D = this.hammer.getComponent(RigidBody2D);
       this.mouseTarRig2D = this.mouseTarget.getComponent(RigidBody2D);
@@ -109,23 +130,23 @@ export class PlayerCtrl extends Component {
       this.rightArmBone = this.playerSk.findBone("L_arm");
 
       this.headBone = this.playerSk.findBone("Head");
-      console.log(this.headBone);
+    
       //计算玩家spine数据中左臂、右臂的长度，作为限制范围
       this.left_MaxLen = this.leftUpArmBone.data.length + this.leftArmBone.data.length -5;
       this.right_MaxLen = this.rightUpArmBone.data.length + this.rightArmBone.data.length -0;
-      console.log(this.left_MaxLen);
-      console.log(this.right_MaxLen);
+
     }
 
     restartGame(pos:Vec2|Vec3){
       this.closeOperate();
+      this.hammer.destroy();
       let p_pos = this.node.parent.getComponent(UITransform).convertToWorldSpaceAR(new Vec3(pos.x,pos.y,0));
       this.node.setWorldPosition(p_pos.x,p_pos.y,0);
     }
 
     openOperate(){
       //控制鼠标在玩家合适的范围内
-      
+      this.playerRig2D.gravityScale = 1;
       if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
         input.on(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
       }else{
@@ -141,6 +162,7 @@ export class PlayerCtrl extends Component {
     }
 
     closeOperate(){
+      this.playerRig2D.gravityScale = 0;
       if (sys.hasFeature(sys.Feature.EVENT_MOUSE)){
         input.off(Input.EventType.MOUSE_MOVE,this.moveMouse,this);
       }else{
@@ -265,9 +287,6 @@ export class PlayerCtrl extends Component {
         this.rightTarBone.x = p3.x;
         this.rightTarBone.y = p3.y;
       }
-
-      
-
       
       if (this.targetPosition.x <this.human.worldPosition.x){
         this.headBone.scaleY = 1;
@@ -309,14 +328,18 @@ export class PlayerCtrl extends Component {
     }
 
     //产生碰撞时调用
-    OnCollisionEnter(){
-      this.isCollider = true;
-      this.playerRig2D.gravityScale = 0;
+    OnCollisionEnter(selfCollider: Collider2D, otherCollider: Collider2D){
+      if (otherCollider.tag == 2){
+        this.isCollider = true;
+        this.playerRig2D.gravityScale = 0;
+      }
     }
     //结束碰撞时调用
-    OnCollisionExit(){
-      this.isCollider = false;
-      this.playerRig2D.gravityScale = 1;
+    OnCollisionExit(selfCollider: Collider2D, otherCollider: Collider2D){
+      if (otherCollider.tag == 2 && this.isCollider && this.playerRig2D.gravityScale==0){
+        this.isCollider = false;
+        this.playerRig2D.gravityScale = 1;
+      }
     }
 
     onDisable(){

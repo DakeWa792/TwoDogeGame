@@ -19,7 +19,7 @@ enum EventName {
   ENDGAME = 'endGame',
   PAUESEGAME = 'pauseGame',
 
-
+  USEWEAPICON = 'useWeapIcon',//切换装备的工具,更新商店的展示icon
 
   SHOWWINGUI = 'showEndGui',
   SHOWBULLETTIP = 'showBulletTip',
@@ -44,6 +44,7 @@ enum VideoEvent {
     CALLBACKSCORE =  'upLoadScore_callBack',
     UNLOCKBULLET = 'unlockBullet',
     UNLOCKWEAPON = 'unlockWeapon',
+    SAVEPOINTSUC = 'savePointSuc',
 }
 
 enum AudioSource {

@@ -8,6 +8,7 @@ import { PlayerData, RunTimeData } from './FrameWork/GameData';
 import { InGameScreen } from './InGameScreen';
 import { PlayerCtrl } from './PlayerCtrl';
 import { StartScreen } from './StartScreen';
+import { scoreCtrl } from './UI/scoreCtrl';
 const { ccclass, property } = _decorator;
 
 const startPos = new Vec2(-110,-115);
@@ -32,9 +33,14 @@ export class Main extends Component {
     @property(Node)
     saveNode:Node = null;
 
+    @property(scoreCtrl)
+    score_Ctrl:scoreCtrl = null;
+
     sceneNode:Node = null;
     seaNode:Node = null;
     showBullNode:Node = null;
+
+
 
     playerPosition:Vec2 = startPos;
 
@@ -55,8 +61,16 @@ export class Main extends Component {
 
     onEnable(){
       CustomEventListener.on(Constants.EventName.ENTERGAME,this.enterGame,this);
+      CustomEventListener.on(Constants.EventName.PAUESEGAME,this.pauseGame,this);
       CustomEventListener.on(Constants.EventName.RESTARTGAME,this.restartGame,this);
       CustomEventListener.on(Constants.EventName.ENDGAME,this.endGame,this);
+    }
+
+    onDisable(){
+      CustomEventListener.off(Constants.EventName.ENTERGAME,this.enterGame,this);
+      CustomEventListener.off(Constants.EventName.PAUESEGAME,this.pauseGame,this);
+      CustomEventListener.off(Constants.EventName.RESTARTGAME,this.restartGame,this);
+      CustomEventListener.off(Constants.EventName.ENDGAME,this.endGame,this);
     }
 
     start(){
@@ -78,9 +92,12 @@ export class Main extends Component {
     }
 
     enterGame(){
+      
       let tpStartPos = this._runtimeData.curPosition;
 
       this.player.active = true;
+      
+
       this.sceneNode.active = true;
       this.seaNode.active = true;
       this.showBullNode.active = true;
@@ -92,13 +109,14 @@ export class Main extends Component {
       this.cameraCtrl.enterGame(tpStartPos);
       
       this.playerCtrl.openOperate();
+      this.score_Ctrl.pauseGame(false);
     }
 
     restartGame(){
       
       this.start_Screen.node.active = true;
       this.inGame_Screen.node.active = false;
-
+      this.playerCtrl.node.active = false;
 
       this.sceneNode.active = false;
       this.seaNode.active = false;
@@ -113,6 +131,7 @@ export class Main extends Component {
     }
     //游戏失败，暂停游戏
     pauseGame(){
+      this.score_Ctrl.pauseGame(true);
       this.playerCtrl.closeOperate();
       this.cameraCtrl.closeUpdate();
     }
@@ -132,6 +151,7 @@ export class Main extends Component {
       
       CustomEventListener.dispatchEvent (Constants.EventName.CLOSEFAILGUI);
       this.playerCtrl.openOperate();
+      this.score_Ctrl.pauseGame(false);
     }
 
     endGame(){

@@ -31,6 +31,7 @@ export class scoreCtrl extends Component {
     height:number =0;
 
     isInGame:boolean = false;
+    isPauseing:boolean = false;
 
     _runTimeData:RunTimeData = null;
     onEnable () {
@@ -52,8 +53,12 @@ export class scoreCtrl extends Component {
       this._runTimeData.playerData.savePlayePos(this.player.position);
     }
 
+    pauseGame(bool:boolean){
+      this.isPauseing = bool;
+    }
+
     updateTime(){
-      if(!this.isInGame){
+      if(!this.isInGame || this.isPauseing){
         return;
       }
 

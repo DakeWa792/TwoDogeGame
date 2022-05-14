@@ -53,8 +53,8 @@ export class shopGuiCtrl extends Component {
     close_getGui:Node = null;
 
     //当前获得物品
-    @property(Node)
-    curGetItem:Node = null;
+    @property(shopItemCtrl)
+    curGetItem:shopItemCtrl = null;
 
     curEquoedWeapTag:number = null;
 
@@ -72,12 +72,20 @@ export class shopGuiCtrl extends Component {
 
       this.close_Shop.on(Node.EventType.TOUCH_START,this.closeShop,this);
       this.choose_btn.on(Node.EventType.TOUCH_START,this.watchVideo,this);
-
+      CustomEventListener.on(Constants.EventName.USEWEAPICON,this.switchUseWeapon,this);
     }
 
-    start () {
-        // [3]
+    onDisable(){
+      if (this.getItemNode.active){
+        this.getItemNode.active = false;
+      }
+      
+      this.close_Shop.off(Node.EventType.TOUCH_START,this.closeShop,this);
+      this.choose_btn.off(Node.EventType.TOUCH_START,this.watchVideo,this);
+      CustomEventListener.off(Constants.EventName.USEWEAPICON,this.switchUseWeapon,this);
     }
+
+  
 
     checkAndShowAllWeapons(){
       
@@ -102,6 +110,7 @@ export class shopGuiCtrl extends Component {
         if (weap_icon){
           let weap_icon_ctrl = weap_icon.getComponent(shopItemCtrl);
           weap_icon_ctrl.isGetWeapon(true);
+          weap_icon_ctrl.canClick(true);
         }
       })
 
@@ -114,6 +123,7 @@ export class shopGuiCtrl extends Component {
         weap_icon_ctrl.useWeapon(true);
       }
       this.curEquoedWeapTag = euipedTag;
+      
     }
 
     randomUnlock(){
@@ -136,7 +146,9 @@ export class shopGuiCtrl extends Component {
 
       let randomArray:number[] = new Array();
       tpArray.forEach((value,index) =>{
-        randomArray.push(index);
+        if (value!=1){
+          randomArray.push(index);
+        } 
       })
 
       let randomTag = randomRangeInt(0,randomArray.length-1);
@@ -156,31 +168,53 @@ export class shopGuiCtrl extends Component {
       if (euiped_icon){
         let weap_icon_ctrl = euiped_icon.getComponent(shopItemCtrl);
         weap_icon_ctrl.isGetWeapon(true);
+        weap_icon_ctrl.canClick(true);
       }
     }
 
-    showGetItemNode(tag:number){
+    switchUseWeapon(tag:number){
+      
+      let cur_equiped_icon_name = "hammerIcon"+this.curEquoedWeapTag;
+      let cur_euiped_icon = this.showItemNode.getChildByName(cur_equiped_icon_name);
+      
+      if (cur_euiped_icon){
+        let weap_icon_ctrl = cur_euiped_icon.getComponent(shopItemCtrl);
+        weap_icon_ctrl.useWeapon(false);
+      }
 
+      let weapon_icon_name = "hammerIcon"+tag;
+      let euiped_icon = this.showItemNode.getChildByName(weapon_icon_name);
+      if(euiped_icon){
+        let weap_icon_ctrl = euiped_icon.getComponent(shopItemCtrl);
+        weap_icon_ctrl.useWeapon(true);
+        this.curEquoedWeapTag = tag;
+        RunTimeData.instance().playerData.saveEuipedWeap(tag);
+      }
+
+    }
+
+    showGetItemNode(tag:number){
+      this.curGetItem.canClick(false);
+      this.curGetItem.initTag(tag);
+      this.curGetItem.isGetWeapon(true);
+      this.getItemNode.active = true;
+
+      this.close_getGui.on(Node.EventType.TOUCH_START,this.closeGetItemNode,this);
     }
 
     closeGetItemNode(){
-      
+      this.getItemNode.active = false;
+      this.close_getGui.off(Node.EventType.TOUCH_START,this.closeGetItemNode,this);
     }
 
     watchVideo(){
-
+      this.randomUnlock();
     }
 
     closeShop(){
       this.node.active = false;
     }
 
-    onDisable(){
-      if (this.getItemNode.active){
-        this.getItemNode.active = false;
-      }
-
-    }
     // update (deltaTime: number) {
     //     // [4]
     // }

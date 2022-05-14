@@ -10,6 +10,9 @@ export class tinyTipCtrl extends Component{
   contLab:Label = null;
   isShowing:boolean = false;
 
+  moveTween:any = null;
+  colorTween:any = null;
+
   onLoad(){
   	this.contLab = this.node.getComponent(Label);
   }
@@ -18,22 +21,22 @@ export class tinyTipCtrl extends Component{
   	if (this.isShowing){
   	  this.init();
   	}
-	
-	this.contLab.string = text;
+    this.isShowing = true;
+	  this.contLab.string = text;
 
   	this.contLab.color = new Color(0,0,0,255);
   	this.contLab.enabled = true;
 
-  	let moveTween = new Tween(this.node);
-  	moveTween.to(3,{ position: new Vec3(0, 250, 0)}).call(()=>{
-  		this.init();
+  	this.moveTween = new Tween(this.node);
+  	this.moveTween.to(3,{ position: new Vec3(0, 250, 0)}).call(()=>{
+      this.init();
   		this.node.active = false;
   	}).start();
 
   	let tpC = new Color(0,0,0,255);
-  	let colorTween = new Tween(tpC);
+  	this.colorTween = new Tween(tpC);
     let tpLab = this.contLab;
-  	colorTween.to(3,{r:255, g:255, b:255,a:50},{ "onUpdate": function (target:Color){
+  	this.colorTween.to(3,{r:255, g:255, b:255,a:50},{ "onUpdate": function (target:Color){
       tpLab.color = target; 
       }
     }).start();
@@ -41,10 +44,15 @@ export class tinyTipCtrl extends Component{
   }
 
   init(){
+  console.log("init tiny tip");
+  this.moveTween.stop();
+  this.colorTween.stop();
+
 	this.isShowing = false;
 	this.contLab.string = "";
 	this.contLab.enabled = false;
-	this.node.setPosition(new Vec3(0,0,0));
+	this.node.position = (new Vec3(0,0,0));
+  this.contLab.color = new Color(255,255,255,255);
   }
 
 }

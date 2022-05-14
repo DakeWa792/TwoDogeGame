@@ -40,11 +40,11 @@ export class Login extends Component {
 
 
     onLoad(){
-      this.initLitsBullet();
+      this.initLitsBullet();   //初始化已存储的弹幕列表
       
-      this.initClinet();
-      this.initSession();
-      this.initSocket();
+      this.initClinet();      //注册客户端
+      this.initSession();     //注册会话
+      this.initSocket();      //连接套接字
 
       this.chatConnect = 0;
       this.schedule(function(){
@@ -56,7 +56,7 @@ export class Login extends Component {
         if (!this.client || !this.session || !this.socket){
           return
         }
-        this.upLoadScore();
+        //this.upLoadScore();
         this.checkChat();
 
       },1,10)

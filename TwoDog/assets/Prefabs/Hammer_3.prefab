@@ -79,7 +79,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Dog_4",
+    "_name": "Sprite",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -607,7 +607,7 @@
       "__id__": 29
     },
     "tag": 0,
-    "_group": 1,
+    "_group": 4,
     "_density": 1,
     "_sensor": false,
     "_friction": 0.2,

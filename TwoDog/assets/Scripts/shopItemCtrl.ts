@@ -1,5 +1,7 @@
 
-import { _decorator, Component, Node, SpriteFrame, Sprite } from 'cc';
+import { _decorator, Component, Node, SpriteFrame, Sprite, TangentWeightMode } from 'cc';
+import { Constants } from './FrameWork/Constants';
+import { CustomEventListener } from './FrameWork/CustomEventListener';
 import { RunTimeData } from './FrameWork/GameData';
 const { ccclass, property } = _decorator;
 
@@ -43,19 +45,33 @@ export class shopItemCtrl extends Component {
     weaponTag:number = null;
     isEnquiped:boolean = false;
 
+    isCanClick:boolean = true;
+
     onLoad () {
       
     }
 
+    onEnable(){
+      this.node.on(Node.EventType.TOUCH_START,this.beClick,this);
+    }
+
+    onDisable(){
+      this.node.off(Node.EventType.TOUCH_START,this.beClick,this);
+    }
+
     initTag(tag:number){
+      this.weaponTag = tag;
       this.iconSpr.spriteFrame = this.icon[tag];
       this.useNode.active = false;
+      this.getNode.active = false;
+      this.lockNode.active = true;
     }
 
     isGetWeapon(isGet:boolean){
       if (isGet){
         this.getNode.active = true;
         this.lockNode.active = false;
+        this.isUnlock = true;
       }else{
         this.getNode.active = false;
         this.lockNode.active = true;
@@ -64,8 +80,28 @@ export class shopItemCtrl extends Component {
 
     useWeapon(bool:boolean){
       this.useNode.active = bool;
+      this.isEnquiped = bool;
+    }
+
+    canClick(bool:boolean){
+      this.isCanClick = bool;
     }
     
+    beClick(){
+      console.log("can be click");
+      if (this.isCanClick){
+        console.log("isCanClick");
+        if (!this.isUnlock){
+          CustomEventListener.dispatchEvent(Constants.EventName.TINYTIP,"你无法装备尚未解锁的锤子");
+        }else{
+          if(this.isEnquiped){
+            CustomEventListener.dispatchEvent(Constants.EventName.TINYTIP,"无法取消装备,你想空手爬么");
+          }else{
+            CustomEventListener.dispatchEvent(Constants.EventName.USEWEAPICON,this.weaponTag);
+          }
+        } 
+      }
+    }
 }
 
 /**
