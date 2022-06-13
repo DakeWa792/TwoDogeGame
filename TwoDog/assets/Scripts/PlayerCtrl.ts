@@ -91,7 +91,7 @@ export class PlayerCtrl extends Component {
         this.hammer.destroy();
       }
       
-      console.log(this.hammer);
+      //console.log(this.hammer);
       this.hammer = instantiate(this.hammer_Pr[tag]);
       this.hammer.parent = this.node;
 
